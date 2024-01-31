@@ -21,6 +21,13 @@ public class Sala {
 
 	}
 
+	public Sala(int codSala, int numSala, ArrayList<Proyeccion> proyecciones, Cine cine) {
+		this.codSala = codSala;
+		this.numSala = numSala;
+		this.proyecciones = proyecciones;
+		this.cine = cine;
+	}
+
 	public int getCodSala() {
 		return codSala;
 	}

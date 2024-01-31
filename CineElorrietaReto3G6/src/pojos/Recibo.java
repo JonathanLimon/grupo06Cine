@@ -20,6 +20,12 @@ public class Recibo {
 
 	}
 
+	public Recibo(int codRecibo, ArrayList<Entrada> entradas, Cliente cliente) {
+		this.codRecibo = codRecibo;
+		this.entradas = entradas;
+		this.cliente = cliente;
+	}
+
 	public int getCodRecibo() {
 		return codRecibo;
 	}

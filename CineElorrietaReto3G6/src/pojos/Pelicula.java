@@ -6,82 +6,90 @@ import java.util.Objects;
 public class Pelicula {
 
 	// Clave primaria
-		private int codPelicula = 0;
+	private int codPelicula = 0;
 
-		// Atributos
-		private String titulo = null;
-		private int duracion = 0;
-		private String genero = null;
+	// Atributos
+	private String titulo = null;
+	private int duracion = 0;
+	private String genero = null;
 
-		// Relacion 1:N con Proyeccion
-		private ArrayList<Proyeccion> proyecciones = null;
+	// Relacion 1:N con Proyeccion
+	private ArrayList<Proyeccion> proyecciones = null;
 
-		public Pelicula() {
+	public Pelicula() {
 
-		}
-		
-		public int getCodPelicula() {
-			return codPelicula;
-		}
+	}
 
-		public void setCodPelicula(int codPelicula) {
-			this.codPelicula = codPelicula;
-		}
+	public Pelicula(int codPelicula, String titulo, int duracion, String genero, ArrayList<Proyeccion> proyecciones) {
+		this.codPelicula = codPelicula;
+		this.titulo = titulo;
+		this.duracion = duracion;
+		this.genero = genero;
+		this.proyecciones = proyecciones;
+	}
 
-		public String getTitulo() {
-			return titulo;
-		}
+	public int getCodPelicula() {
+		return codPelicula;
+	}
 
-		public void setTitulo(String titulo) {
-			this.titulo = titulo;
-		}
+	public void setCodPelicula(int codPelicula) {
+		this.codPelicula = codPelicula;
+	}
 
-		public int getDuracion() {
-			return duracion;
-		}
+	public String getTitulo() {
+		return titulo;
+	}
 
-		public void setDuracion(int duracion) {
-			this.duracion = duracion;
-		}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 
-		public String getGenero() {
-			return genero;
-		}
+	public int getDuracion() {
+		return duracion;
+	}
 
-		public void setGenero(String genero) {
-			this.genero = genero;
-		}
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
+	}
 
-		public ArrayList<Proyeccion> getProyecciones() {
-			return proyecciones;
-		}
+	public String getGenero() {
+		return genero;
+	}
 
-		public void setProyecciones(ArrayList<Proyeccion> proyecciones) {
-			this.proyecciones = proyecciones;
-		}
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
 
-		@Override
-		public int hashCode() {
-			return Objects.hash(codPelicula, duracion, genero, proyecciones, titulo);
-		}
+	public ArrayList<Proyeccion> getProyecciones() {
+		return proyecciones;
+	}
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Pelicula other = (Pelicula) obj;
-			return codPelicula == other.codPelicula && duracion == other.duracion && Objects.equals(genero, other.genero)
-					&& Objects.equals(proyecciones, other.proyecciones) && Objects.equals(titulo, other.titulo);
-		}
+	public void setProyecciones(ArrayList<Proyeccion> proyecciones) {
+		this.proyecciones = proyecciones;
+	}
 
-		@Override
-		public String toString() {
-			return "Pelicula [codPelicula=" + codPelicula + ", titulo=" + titulo + ", duracion=" + duracion + ", genero="
-					+ genero + ", proyecciones=" + proyecciones + "]";
-		}
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(codPelicula, duracion, genero, proyecciones, titulo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pelicula other = (Pelicula) obj;
+		return codPelicula == other.codPelicula && duracion == other.duracion && Objects.equals(genero, other.genero)
+				&& Objects.equals(proyecciones, other.proyecciones) && Objects.equals(titulo, other.titulo);
+	}
+
+	@Override
+	public String toString() {
+		return "Pelicula [codPelicula=" + codPelicula + ", titulo=" + titulo + ", duracion=" + duracion + ", genero="
+				+ genero + ", proyecciones=" + proyecciones + "]";
+	}
+
 }

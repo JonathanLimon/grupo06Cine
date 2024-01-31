@@ -19,6 +19,13 @@ public class Entrada {
 
 	}
 
+	public Entrada(int codEntrada, int codProyeccion, int codRecibo, ArrayList<Proyeccion> proyecciones) {
+		this.codEntrada = codEntrada;
+		this.codProyeccion = codProyeccion;
+		this.codRecibo = codRecibo;
+		this.proyecciones = proyecciones;
+	}
+
 	public int getCodEntrada() {
 		return codEntrada;
 	}

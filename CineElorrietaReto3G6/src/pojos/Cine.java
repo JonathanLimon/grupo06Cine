@@ -17,6 +17,13 @@ public class Cine {
 		
 	}
 	
+	public Cine(int codCine, String nombre, String direccion, ArrayList<Sala> salas) {
+		this.codCine = codCine;
+		this.nombre = nombre;
+		this.direccion = direccion;
+		this.salas = salas;
+	}
+
 	public int getCodCine() {
 		return codCine;
 	}

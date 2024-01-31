@@ -20,6 +20,15 @@ public class Proyeccion {
 
 	}
 
+	public Proyeccion(int codProyeccion, int codSala, int codPelicula, Date fecha, Time hora, float precio) {
+		this.codProyeccion = codProyeccion;
+		this.codSala = codSala;
+		this.codPelicula = codPelicula;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.precio = precio;
+	}
+
 	public int getCodProyeccion() {
 		return codProyeccion;
 	}

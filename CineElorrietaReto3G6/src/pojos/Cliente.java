@@ -26,6 +26,19 @@ public class Cliente {
 
 	}
 
+	public Cliente(int idCliente, String dNI, String nombre, String apellido, String sexo, String usuario,
+			String contraseña, ArrayList<Entrada> entradas, ArrayList<Recibo> recibos) {
+		this.idCliente = idCliente;
+		DNI = dNI;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.sexo = sexo;
+		this.usuario = usuario;
+		this.contraseña = contraseña;
+		this.entradas = entradas;
+		this.recibos = recibos;
+	}
+
 	public int getIdCliente() {
 		return idCliente;
 	}
