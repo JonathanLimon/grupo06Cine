@@ -5,12 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import pojos.Cliente;
 import DBUtils.DBUtils;
 
 public class GestorClientes {
 
-	public void insertEjemplo(Cliente cliente) {
+	public void insertEjemplo() {
 
 		Connection connection = null;
 

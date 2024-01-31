@@ -3,44 +3,24 @@ package vista;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import gestores.GestorCines;
 import gestores.GestorClientes;
-import gestores.GestorEntradas;
-import gestores.GestorPeliculas;
-import gestores.GestorProyecciones;
-import gestores.GestorSalas;
-import pojos.Cine;
-import pojos.Cliente;
-import pojos.Pelicula;
-import pojos.Proyeccion;
 
 public class VentanaPrincipalIbai {
 
@@ -98,6 +78,18 @@ public class VentanaPrincipalIbai {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
+		JPanel PanelLogin = new JPanel();
+		PanelLogin.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(PanelLogin);
+		PanelLogin.setVisible(false);
+		PanelLogin.setLayout(null);
+
+		JPanel PanelBienvenida = new JPanel();
+		PanelBienvenida.setLayout(null);
+		PanelBienvenida.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(PanelBienvenida);
+
+		
 		JPanel PanelRegistro = new JPanel();
 		PanelRegistro.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(PanelRegistro);
@@ -181,17 +173,6 @@ public class VentanaPrincipalIbai {
 		comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] { "Seleccione", "Hombre", "Mujer" }));
 		comboBoxSexo.setBounds(125, 286, 86, 22);
 		PanelRegistro.add(comboBoxSexo);
-
-		JPanel PanelLogin = new JPanel();
-		PanelLogin.setBounds(0, 0, 564, 441);
-		frame.getContentPane().add(PanelLogin);
-		PanelLogin.setVisible(false);
-		PanelLogin.setLayout(null);
-
-		JPanel PanelBienvenida = new JPanel();
-		PanelBienvenida.setLayout(null);
-		PanelBienvenida.setBounds(0, 0, 564, 441);
-		frame.getContentPane().add(PanelBienvenida);
 
 		JLabel lblLogin = new JLabel("LOGIN");
 		lblLogin.setBounds(249, 100, 66, 30);
