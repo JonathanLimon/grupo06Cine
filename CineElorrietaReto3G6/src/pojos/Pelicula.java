@@ -16,6 +16,10 @@ public class Pelicula {
 		// Relacion 1:N con Proyeccion
 		private ArrayList<Proyeccion> proyecciones = null;
 
+		public Pelicula() {
+
+		}
+		
 		public int getCodPelicula() {
 			return codPelicula;
 		}

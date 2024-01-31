@@ -15,6 +15,10 @@ public class Entrada {
 	// Relacion 1:N con Proyeccion
 	private ArrayList<Proyeccion> proyecciones = null;
 
+	public Entrada() {
+
+	}
+
 	public int getCodEntrada() {
 		return codEntrada;
 	}

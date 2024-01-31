@@ -32,11 +32,13 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import gestores.GestorCines;
+import gestores.GestorClientes;
 import gestores.GestorEntradas;
 import gestores.GestorPeliculas;
 import gestores.GestorProyecciones;
 import gestores.GestorSalas;
 import pojos.Cine;
+import pojos.Cliente;
 import pojos.Pelicula;
 import pojos.Proyeccion;
 
@@ -44,6 +46,7 @@ public class VentanaPrincipalIbai {
 
 	private JFrame frame;
 
+	private GestorClientes gestorCliente = new GestorClientes();
 	public String tituloSeleccionado = null;
 	public Date fechaSeleccionada = null;
 	public Time horaSeleccionada = null;
@@ -95,17 +98,95 @@ public class VentanaPrincipalIbai {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JPanel PanelLogin = new JPanel();
-		PanelLogin.setBounds(0, 0, 564, 441);
-		frame.getContentPane().add(PanelLogin);
-		PanelLogin.setVisible(false);
-		PanelLogin.setLayout(null);
-
 		JPanel PanelRegistro = new JPanel();
 		PanelRegistro.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(PanelRegistro);
 		PanelRegistro.setLayout(null);
 		PanelRegistro.setVisible(false);
+
+		JLabel lblRegistro = new JLabel("Registro");
+		lblRegistro.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblRegistro.setBounds(236, 54, 89, 26);
+		PanelRegistro.add(lblRegistro);
+
+		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setBounds(81, 208, 46, 14);
+		PanelRegistro.add(lblNombre);
+
+		JLabel lblApellido = new JLabel("Apellido");
+		lblApellido.setBounds(81, 233, 46, 14);
+		PanelRegistro.add(lblApellido);
+
+		JLabel lblDni = new JLabel("DNI");
+		lblDni.setBounds(81, 261, 46, 14);
+		PanelRegistro.add(lblDni);
+
+		JLabel lblSexo = new JLabel("Sexo");
+		lblSexo.setBounds(81, 286, 46, 14);
+		PanelRegistro.add(lblSexo);
+
+		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setBounds(293, 236, 46, 14);
+		PanelRegistro.add(lblUsuario);
+
+		JLabel lblContraseña = new JLabel("Contraseña");
+		lblContraseña.setBounds(283, 279, 56, 14);
+		PanelRegistro.add(lblContraseña);
+
+		JButton btnAtrasRegistro = new JButton("Atrás");
+		btnAtrasRegistro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				PanelLogin.setVisible(true);
+				PanelRegistro.setVisible(false);
+			}
+		});
+		btnAtrasRegistro.setBounds(181, 361, 89, 23);
+		PanelRegistro.add(btnAtrasRegistro);
+
+		JButton btnAceptarRegistro = new JButton("Aceptar");
+		btnAceptarRegistro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aceptarRegistro();
+			}
+		});
+		btnAceptarRegistro.setBounds(349, 361, 89, 23);
+		PanelRegistro.add(btnAceptarRegistro);
+
+		txtNombre = new JTextField();
+		txtNombre.setBounds(125, 205, 86, 20);
+		PanelRegistro.add(txtNombre);
+		txtNombre.setColumns(10);
+
+		txtApellido = new JTextField();
+		txtApellido.setBounds(125, 233, 86, 20);
+		PanelRegistro.add(txtApellido);
+		txtApellido.setColumns(10);
+
+		txtDni = new JTextField();
+		txtDni.setBounds(125, 258, 86, 20);
+		PanelRegistro.add(txtDni);
+		txtDni.setColumns(10);
+
+		txtUsuario = new JTextField();
+		txtUsuario.setBounds(349, 235, 86, 20);
+		PanelRegistro.add(txtUsuario);
+		txtUsuario.setColumns(10);
+
+		txtContras = new JPasswordField();
+		txtContras.setBounds(349, 276, 90, 20);
+		PanelRegistro.add(txtContras);
+
+		JComboBox<String> comboBoxSexo = new JComboBox<String>();
+		comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] { "Seleccione", "Hombre", "Mujer" }));
+		comboBoxSexo.setBounds(125, 286, 86, 22);
+		PanelRegistro.add(comboBoxSexo);
+
+		JPanel PanelLogin = new JPanel();
+		PanelLogin.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(PanelLogin);
+		PanelLogin.setVisible(false);
+		PanelLogin.setLayout(null);
 
 		JPanel PanelBienvenida = new JPanel();
 		PanelBienvenida.setLayout(null);
@@ -165,79 +246,6 @@ public class VentanaPrincipalIbai {
 			}
 		});
 
-		JLabel lblRegistro = new JLabel("Registro");
-		lblRegistro.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblRegistro.setBounds(236, 54, 89, 26);
-		PanelRegistro.add(lblRegistro);
-
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(81, 208, 46, 14);
-		PanelRegistro.add(lblNombre);
-
-		JLabel lblApellido = new JLabel("Apellido");
-		lblApellido.setBounds(81, 233, 46, 14);
-		PanelRegistro.add(lblApellido);
-
-		JLabel lblDni = new JLabel("DNI");
-		lblDni.setBounds(81, 261, 46, 14);
-		PanelRegistro.add(lblDni);
-
-		JLabel lblSexo = new JLabel("Sexo");
-		lblSexo.setBounds(81, 286, 46, 14);
-		PanelRegistro.add(lblSexo);
-
-		JLabel lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(293, 236, 46, 14);
-		PanelRegistro.add(lblUsuario);
-
-		JLabel lblContraseña = new JLabel("Contraseña");
-		lblContraseña.setBounds(283, 279, 56, 14);
-		PanelRegistro.add(lblContraseña);
-
-		JButton btnAtrasRegistro = new JButton("Atrás");
-		btnAtrasRegistro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				PanelLogin.setVisible(true);
-				PanelRegistro.setVisible(false);
-			}
-		});
-		btnAtrasRegistro.setBounds(181, 361, 89, 23);
-		PanelRegistro.add(btnAtrasRegistro);
-
-		JButton btnAceptarRegistro = new JButton("Aceptar");
-		btnAceptarRegistro.setBounds(349, 361, 89, 23);
-		PanelRegistro.add(btnAceptarRegistro);
-
-		txtNombre = new JTextField();
-		txtNombre.setBounds(125, 205, 86, 20);
-		PanelRegistro.add(txtNombre);
-		txtNombre.setColumns(10);
-
-		txtApellido = new JTextField();
-		txtApellido.setBounds(125, 233, 86, 20);
-		PanelRegistro.add(txtApellido);
-		txtApellido.setColumns(10);
-
-		txtDni = new JTextField();
-		txtDni.setBounds(125, 258, 86, 20);
-		PanelRegistro.add(txtDni);
-		txtDni.setColumns(10);
-
-		txtUsuario = new JTextField();
-		txtUsuario.setBounds(349, 235, 86, 20);
-		PanelRegistro.add(txtUsuario);
-		txtUsuario.setColumns(10);
-
-		txtContras = new JPasswordField();
-		txtContras.setBounds(349, 276, 90, 20);
-		PanelRegistro.add(txtContras);
-
-		JComboBox<String> comboBoxSexo = new JComboBox<String>();
-		comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] { "Seleccione", "Hombre", "Mujer" }));
-		comboBoxSexo.setBounds(125, 286, 86, 22);
-		PanelRegistro.add(comboBoxSexo);
-
 		// Buttons
 
 		JButton bBotonBienvenida = new JButton("BIENVENIDO");
@@ -258,6 +266,12 @@ public class VentanaPrincipalIbai {
 		JLabel lblFondoBienvenida = new JLabel("");
 		lblFondoBienvenida.setBounds(0, 0, 564, 441);
 		PanelBienvenida.add(lblFondoBienvenida);
+
+	}
+
+	private void aceptarRegistro() {
+
+		gestorCliente.insertEjemplo();
 
 	}
 

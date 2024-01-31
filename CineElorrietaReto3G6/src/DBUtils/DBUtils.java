@@ -1,4 +1,4 @@
-package DUtils;
+package DBUtils;
 
 public class DBUtils {
 

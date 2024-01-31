@@ -16,6 +16,10 @@ public class Recibo {
 	// Relacion N:1 con Cliente
 	private Cliente cliente = null;
 
+	public Recibo() {
+
+	}
+
 	public int getCodRecibo() {
 		return codRecibo;
 	}

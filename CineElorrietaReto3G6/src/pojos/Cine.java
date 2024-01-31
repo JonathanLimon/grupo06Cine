@@ -13,6 +13,10 @@ public class Cine {
 	// Relacion 1:N con Sala
 	private ArrayList<Sala> salas = null;
 
+	public Cine() {
+		
+	}
+	
 	public int getCodCine() {
 		return codCine;
 	}

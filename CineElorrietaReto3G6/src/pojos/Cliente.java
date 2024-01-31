@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Cliente {
 
 	// Clave primaria
-	private int codCliente = 0;
+	private int idCliente = 0;
 
 	// Atributos
 	private String DNI = null;
@@ -22,12 +22,16 @@ public class Cliente {
 	// Relacion 1:N con Recibo
 	private ArrayList<Recibo> recibos = null;
 
-	public int getCodCliente() {
-		return codCliente;
+	public Cliente() {
+
 	}
 
-	public void setCodCliente(int codCliente) {
-		this.codCliente = codCliente;
+	public int getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
 	}
 
 	public String getDNI() {
@@ -96,7 +100,7 @@ public class Cliente {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(DNI, apellido, codCliente, contraseña, entradas, nombre, recibos, sexo, usuario);
+		return Objects.hash(DNI, apellido, idCliente, contraseña, entradas, nombre, recibos, sexo, usuario);
 	}
 
 	@Override
@@ -109,7 +113,7 @@ public class Cliente {
 			return false;
 		Cliente other = (Cliente) obj;
 		return Objects.equals(DNI, other.DNI) && Objects.equals(apellido, other.apellido)
-				&& codCliente == other.codCliente && Objects.equals(contraseña, other.contraseña)
+				&& idCliente == other.idCliente && Objects.equals(contraseña, other.contraseña)
 				&& Objects.equals(entradas, other.entradas) && Objects.equals(nombre, other.nombre)
 				&& Objects.equals(recibos, other.recibos) && sexo == other.sexo
 				&& Objects.equals(usuario, other.usuario);
@@ -117,7 +121,7 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [codCliente=" + codCliente + ", DNI=" + DNI + ", nombre=" + nombre + ", apellido=" + apellido
+		return "Cliente [idCliente=" + idCliente + ", DNI=" + DNI + ", nombre=" + nombre + ", apellido=" + apellido
 				+ ", sexo=" + sexo + ", usuario=" + usuario + ", contraseña=" + contraseña + ", entradas=" + entradas
 				+ ", recibos=" + recibos + "]";
 	}

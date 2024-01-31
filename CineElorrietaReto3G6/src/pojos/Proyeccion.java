@@ -16,6 +16,10 @@ public class Proyeccion {
 	private Time hora = null;
 	private float precio = 0;
 
+	public Proyeccion() {
+
+	}
+
 	public int getCodProyeccion() {
 		return codProyeccion;
 	}

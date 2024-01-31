@@ -17,6 +17,10 @@ public class Sala {
 	// Relacion N:1 con Cine
 	private Cine cine = null;
 
+	public Sala() {
+
+	}
+
 	public int getCodSala() {
 		return codSala;
 	}
