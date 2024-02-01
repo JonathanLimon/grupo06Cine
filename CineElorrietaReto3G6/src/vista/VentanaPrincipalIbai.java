@@ -263,7 +263,7 @@ public class VentanaPrincipalIbai {
 		cliente.setDNI(txtDni.getText());
 		cliente.setSexo(sexoSeleccionado);
 		cliente.setContraseña(txtContras.getText());
-		gestorCliente.insertEjemplo(cliente);
+		gestorCliente.insertCliente(cliente);
 
 	}
 

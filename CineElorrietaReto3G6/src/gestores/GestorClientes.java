@@ -10,7 +10,7 @@ import pojos.Cliente;
 
 public class GestorClientes {
 
-	public void insertEjemplo(Cliente cliente) {
+	public void insertCliente(Cliente cliente) {
 
 		Connection connection = null;
 
@@ -23,8 +23,9 @@ public class GestorClientes {
 
 			statement = connection.createStatement();
 
-			String sql = "insert into cliente (idCliente, DNI, Nombre, Apellido, Sexo, Contraseña) VALUES (1,'" + cliente.getDNI() + " ','" + 
-			cliente.getNombre() + "','" + cliente.getApellido() + "','" + cliente.getSexo() + "','" + cliente.getContraseña() + "')";
+			String sql = "insert into cliente (DNI, Nombre, Apellido, Sexo, Contraseña) VALUES ('" + cliente.getDNI()
+					+ " ','" + cliente.getNombre() + "','" + cliente.getApellido() + "','" + cliente.getSexo() + "','"
+					+ cliente.getContraseña() + "')";
 
 			statement.executeUpdate(sql);
 
