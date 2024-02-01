@@ -6,10 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import DBUtils.DBUtils;
+import pojos.Cliente;
 
 public class GestorClientes {
 
-	public void insertEjemplo() {
+	public void insertEjemplo(Cliente cliente) {
 
 		Connection connection = null;
 
@@ -22,7 +23,8 @@ public class GestorClientes {
 
 			statement = connection.createStatement();
 
-			String sql = "insert into cliente (idCliente, DNI, Nombre, Apellido, Sexo, Contraseña) VALUES ()";
+			String sql = "insert into cliente (idCliente, DNI, Nombre, Apellido, Sexo, Contraseña) VALUES (1,'" + cliente.getDNI() + " ','" + 
+			cliente.getNombre() + "','" + cliente.getApellido() + "','" + cliente.getSexo() + "','" + cliente.getContraseña() + "')";
 
 			statement.executeUpdate(sql);
 

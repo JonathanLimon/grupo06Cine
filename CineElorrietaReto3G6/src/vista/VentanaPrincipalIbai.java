@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import gestores.GestorClientes;
+import pojos.Cliente;
+import javax.swing.DropMode;
 
 public class VentanaPrincipalIbai {
 
@@ -44,9 +46,10 @@ public class VentanaPrincipalIbai {
 	private JTextField txtDni = null;
 	private JTextField txtUsuario = null;
 	private JTextField txtUserLogin;
+	private JComboBox<String> comboBoxSexo;
 
 	private JPasswordField txtUserPass;
-	private JPasswordField txtContras;
+	private JTextField txtContras;
 
 	public static void main(String[] args) {
 
@@ -84,12 +87,6 @@ public class VentanaPrincipalIbai {
 		PanelLogin.setVisible(false);
 		PanelLogin.setLayout(null);
 
-		JPanel PanelBienvenida = new JPanel();
-		PanelBienvenida.setLayout(null);
-		PanelBienvenida.setBounds(0, 0, 564, 441);
-		frame.getContentPane().add(PanelBienvenida);
-
-		
 		JPanel PanelRegistro = new JPanel();
 		PanelRegistro.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(PanelRegistro);
@@ -165,14 +162,19 @@ public class VentanaPrincipalIbai {
 		PanelRegistro.add(txtUsuario);
 		txtUsuario.setColumns(10);
 
-		txtContras = new JPasswordField();
+		txtContras = new JTextField();
 		txtContras.setBounds(349, 276, 90, 20);
 		PanelRegistro.add(txtContras);
 
-		JComboBox<String> comboBoxSexo = new JComboBox<String>();
+		comboBoxSexo = new JComboBox<String>();
 		comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] { "Seleccione", "Hombre", "Mujer" }));
 		comboBoxSexo.setBounds(125, 286, 86, 22);
 		PanelRegistro.add(comboBoxSexo);
+
+		JPanel PanelBienvenida = new JPanel();
+		PanelBienvenida.setLayout(null);
+		PanelBienvenida.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(PanelBienvenida);
 
 		JLabel lblLogin = new JLabel("LOGIN");
 		lblLogin.setBounds(249, 100, 66, 30);
@@ -252,7 +254,16 @@ public class VentanaPrincipalIbai {
 
 	private void aceptarRegistro() {
 
-		gestorCliente.insertEjemplo();
+		Cliente cliente = new Cliente();
+
+		String sexoSeleccionado = comboBoxSexo.getSelectedItem().toString();
+
+		cliente.setNombre(txtNombre.getText());
+		cliente.setApellido(txtApellido.getText());
+		cliente.setDNI(txtDni.getText());
+		cliente.setSexo(sexoSeleccionado);
+		cliente.setContraseña(txtContras.getText());
+		gestorCliente.insertEjemplo(cliente);
 
 	}
 
