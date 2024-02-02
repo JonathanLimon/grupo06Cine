@@ -22,7 +22,6 @@ import javax.swing.table.DefaultTableModel;
 
 import gestores.GestorClientes;
 import pojos.Cliente;
-import javax.swing.DropMode;
 
 public class VentanaPrincipalIbai {
 
