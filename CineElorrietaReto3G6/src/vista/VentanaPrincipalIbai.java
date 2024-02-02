@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -268,6 +270,36 @@ public class VentanaPrincipalIbai {
 		txtUserPass = new JPasswordField();
 		txtUserPass.setBounds(221, 259, 86, 20);
 		PanelLogin.add(txtUserPass);
+
+		txtUserPass.addKeyListener(new KeyListener() {
+			public void keyTyped(KeyEvent e) {
+			}
+
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnAccederCuenta.doClick();
+				}
+
+			}
+
+			public void keyReleased(KeyEvent e) {
+			}
+		});
+
+		txtUserLogin.addKeyListener(new KeyListener() {
+			public void keyTyped(KeyEvent e) {
+			}
+
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnAccederCuenta.doClick();
+				}
+
+			}
+
+			public void keyReleased(KeyEvent e) {
+			}
+		});
 
 		// Action Listeners
 		btnRegistrarse.addActionListener(new ActionListener() {
