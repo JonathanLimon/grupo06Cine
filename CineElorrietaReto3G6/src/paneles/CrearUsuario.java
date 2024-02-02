@@ -216,27 +216,6 @@ public class CrearUsuario {
 			}
 		});
 
-		btnAceptarRegistro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Cliente clienteNuevo = new Cliente();
-
-				clienteNuevo.setDNI(txtDni.getText());
-				clienteNuevo.setNombre(txtNombre.getText());
-				clienteNuevo.setApellido(txtApellido.getText());
-				clienteNuevo.setSexo(comboBoxSexo.getSelectedItem().toString());
-				clienteNuevo.setUsuario(txtUsuario.getText());
-				String pwd = new String(txtContras.getPassword());
-				clienteNuevo.setContraseña(pwd);
-
-				gestorCliente.añadirUsuario(clienteNuevo);
-
-				JFrame jFrame = new JFrame();
-				JOptionPane.showMessageDialog(jFrame, "Cuenta creada");
-				panelRegistro.setVisible(false);
-				panelLogin.setVisible(true);
-			}
-		});
 
 		btnAtrasRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

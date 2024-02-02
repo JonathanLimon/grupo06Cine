@@ -8,8 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,10 +20,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import gestores.GestorCines;
 import gestores.GestorClientes;
+import pojos.Cine;
 import pojos.Cliente;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class VentanaPrincipalIbai {
 
@@ -39,6 +46,8 @@ public class VentanaPrincipalIbai {
 
 	public Float precioTotal = null;
 
+	private JPanel panelSelecCines;
+	private JPanel PanelLogin;
 	DefaultTableModel model = new DefaultTableModel();
 	private JTextField txtNombre = null;
 	private JTextField txtApellido = null;
@@ -46,6 +55,8 @@ public class VentanaPrincipalIbai {
 	private JTextField txtUsuario = null;
 	private JTextField txtUserLogin;
 	private JComboBox<String> comboBoxSexo;
+	private JList<String> listCines;
+	private ArrayList<Cine> cine = new ArrayList<Cine>();
 
 	private JPasswordField txtUserPass;
 	private JTextField txtContras;
@@ -80,7 +91,32 @@ public class VentanaPrincipalIbai {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JPanel PanelLogin = new JPanel();
+		panelSelecCines = new JPanel();
+		panelSelecCines.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(panelSelecCines);
+		panelSelecCines.setLayout(null);
+		panelSelecCines.setVisible(false);
+
+		JLabel labelSeleccionCines = new JLabel("Selecciona un Cine");
+		labelSeleccionCines.setHorizontalAlignment(SwingConstants.CENTER);
+		labelSeleccionCines.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		labelSeleccionCines.setBounds(33, 69, 241, 57);
+		panelSelecCines.add(labelSeleccionCines);
+
+		JLabel seleccionCinesLogo = new JLabel("");
+		seleccionCinesLogo.setIcon(new ImageIcon("C:\\Users\\in1dw3\\Desktop\\Ibai\\Reto 3\\bienvenida.png"));
+		seleccionCinesLogo.setBounds(376, 11, 137, 156);
+		panelSelecCines.add(seleccionCinesLogo);
+
+		JButton btnFinalizar = new JButton("FINALIZAR");
+		btnFinalizar.setBounds(221, 392, 96, 38);
+		panelSelecCines.add(btnFinalizar);
+
+		listCines = new JList<String>();
+		listCines.setBounds(78, 132, 406, 230);
+		panelSelecCines.add(listCines);
+
+		PanelLogin = new JPanel();
 		PanelLogin.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(PanelLogin);
 		PanelLogin.setVisible(false);
@@ -197,6 +233,19 @@ public class VentanaPrincipalIbai {
 		PanelLogin.add(btnRegistrarse);
 
 		JButton btnAccederCuenta = new JButton("Acceder");
+		btnAccederCuenta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GestorClientes gestCli = new GestorClientes();
+				String pwd = new String(txtUserPass.getPassword());
+				if (gestCli.validarLogin(txtUserLogin.getText(), pwd)) {
+					PanelLogin.setVisible(false);
+					panelSelecCines.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "ERROR, Vuelve a intentar");
+				}
+				mostrarListaCines();
+			}
+		});
 		btnAccederCuenta.setBounds(221, 334, 89, 23);
 		PanelLogin.add(btnAccederCuenta);
 
@@ -262,8 +311,21 @@ public class VentanaPrincipalIbai {
 		cliente.setDNI(txtDni.getText());
 		cliente.setSexo(sexoSeleccionado);
 		cliente.setContraseña(txtContras.getText());
+		cliente.setUsuario(txtUsuario.getText());
 		gestorCliente.insertCliente(cliente);
 
 	}
 
+	private void mostrarListaCines() {
+		GestorCines gestorCine = new GestorCines();
+
+		gestorCine.obtenerTodosLosCines(cine);
+
+		DefaultListModel listModel = new DefaultListModel();
+
+		for (int i = 0; i < cine.size(); i++) {
+			listModel.add(i, cine.get(i));
+		}
+		listCines.setModel(listModel);
+	}
 }

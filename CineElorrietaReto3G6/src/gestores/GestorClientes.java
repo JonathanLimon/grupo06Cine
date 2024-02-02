@@ -26,20 +26,21 @@ public class GestorClientes {
 
 			statement = connection.createStatement();
 
-			String sql = "insert into cliente (DNI, Nombre, Apellido, Sexo, Contraseña) VALUES ('" + cliente.getDNI()
-					+ " ','" + cliente.getNombre() + "','" + cliente.getApellido() + "','" + cliente.getSexo() + "','"
-					+ cliente.getContraseña() + "')";
+			String sql = "insert into cliente (DNI, Nombre, Apellido, Sexo, Contraseña, Usuario) VALUES ('"
+					+ cliente.getDNI() + " ','" + cliente.getNombre() + "','" + cliente.getApellido() + "','"
+					+ cliente.getSexo() + "','" + cliente.getContraseña() + "','" + cliente.getUsuario() + "')";
 
 			statement.executeUpdate(sql);
 
 		} catch (SQLException sqle) {
-			System.out.println("Error con la BBDD - " + sqle.getMessage());
+			JOptionPane.showMessageDialog(null, "ERROR, Vuelve a intentar");
 		} catch (Exception e) {
-			System.out.println("Error generico - " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "ERROR, Vuelve a intentar");
 		} finally {
 			try {
 				if (statement != null)
 					statement.close();
+				JOptionPane.showMessageDialog(null, "Cliente creado");
 			} catch (Exception e) {
 			}
 			;
@@ -75,7 +76,7 @@ public class GestorClientes {
 			statement = connection.createStatement();
 
 			// Montamos la SQL
-			String sql = "select * from t_cliente where usuario = '" + usuario + "' and contraseña = '" + contraseña
+			String sql = "select * from cliente where usuario = '" + usuario + "' and contraseña = '" + contraseña
 					+ "'";
 
 			// La ejecutamos...
