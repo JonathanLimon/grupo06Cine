@@ -12,6 +12,7 @@ public class Pelicula {
 	private String titulo = null;
 	private int duracion = 0;
 	private String genero = null;
+	private float precio = 0;
 
 	// Relacion 1:N con Proyeccion
 	private ArrayList<Proyeccion> proyecciones = null;
@@ -20,11 +21,14 @@ public class Pelicula {
 
 	}
 
-	public Pelicula(int codPelicula, String titulo, int duracion, String genero, ArrayList<Proyeccion> proyecciones) {
+	public Pelicula(int codPelicula, String titulo, int duracion, String genero, float precio,
+			ArrayList<Proyeccion> proyecciones) {
+		super();
 		this.codPelicula = codPelicula;
 		this.titulo = titulo;
 		this.duracion = duracion;
 		this.genero = genero;
+		this.precio = precio;
 		this.proyecciones = proyecciones;
 	}
 
@@ -60,6 +64,14 @@ public class Pelicula {
 		this.genero = genero;
 	}
 
+	public float getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(float precio) {
+		this.precio = precio;
+	}
+
 	public ArrayList<Proyeccion> getProyecciones() {
 		return proyecciones;
 	}
@@ -70,7 +82,7 @@ public class Pelicula {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codPelicula, duracion, genero, proyecciones, titulo);
+		return Objects.hash(codPelicula, duracion, genero, precio, proyecciones, titulo);
 	}
 
 	@Override
@@ -83,13 +95,14 @@ public class Pelicula {
 			return false;
 		Pelicula other = (Pelicula) obj;
 		return codPelicula == other.codPelicula && duracion == other.duracion && Objects.equals(genero, other.genero)
+				&& Float.floatToIntBits(precio) == Float.floatToIntBits(other.precio)
 				&& Objects.equals(proyecciones, other.proyecciones) && Objects.equals(titulo, other.titulo);
 	}
 
 	@Override
 	public String toString() {
 		return "Pelicula [codPelicula=" + codPelicula + ", titulo=" + titulo + ", duracion=" + duracion + ", genero="
-				+ genero + ", proyecciones=" + proyecciones + "]";
+				+ genero + ", precio=" + precio + ", proyecciones=" + proyecciones + "]";
 	}
 
 }

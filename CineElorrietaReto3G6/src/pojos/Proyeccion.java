@@ -14,19 +14,18 @@ public class Proyeccion {
 	private int codPelicula = 0;
 	private Date fecha = null;
 	private Time hora = null;
-	private float precio = 0;
 
 	public Proyeccion() {
 
 	}
 
-	public Proyeccion(int codProyeccion, int codSala, int codPelicula, Date fecha, Time hora, float precio) {
+	public Proyeccion(int codProyeccion, int codSala, int codPelicula, Date fecha, Time hora) {
+		super();
 		this.codProyeccion = codProyeccion;
 		this.codSala = codSala;
 		this.codPelicula = codPelicula;
 		this.fecha = fecha;
 		this.hora = hora;
-		this.precio = precio;
 	}
 
 	public int getCodProyeccion() {
@@ -69,17 +68,9 @@ public class Proyeccion {
 		this.hora = hora;
 	}
 
-	public float getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(float precio) {
-		this.precio = precio;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(codPelicula, codProyeccion, codSala, fecha, hora, precio);
+		return Objects.hash(codPelicula, codProyeccion, codSala, fecha, hora);
 	}
 
 	@Override
@@ -92,14 +83,13 @@ public class Proyeccion {
 			return false;
 		Proyeccion other = (Proyeccion) obj;
 		return codPelicula == other.codPelicula && codProyeccion == other.codProyeccion && codSala == other.codSala
-				&& Objects.equals(fecha, other.fecha) && Objects.equals(hora, other.hora)
-				&& Float.floatToIntBits(precio) == Float.floatToIntBits(other.precio);
+				&& Objects.equals(fecha, other.fecha) && Objects.equals(hora, other.hora);
 	}
 
 	@Override
 	public String toString() {
 		return "Proyeccion [codProyeccion=" + codProyeccion + ", codSala=" + codSala + ", codPelicula=" + codPelicula
-				+ ", fecha=" + fecha + ", hora=" + hora + ", precio=" + precio + "]";
+				+ ", fecha=" + fecha + ", hora=" + hora + "]";
 	}
 
 }

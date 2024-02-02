@@ -1,5 +1,6 @@
 package pojos;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -9,21 +10,27 @@ public class Entrada {
 	private int codEntrada = 0;
 
 	// Atributos
-	private int codProyeccion = 0;
-	private int codRecibo = 0;
+	private Date fechaCompra = null;
+	private float precioTotal = 0;
 
 	// Relacion 1:N con Proyeccion
 	private ArrayList<Proyeccion> proyecciones = null;
+
+	// Relacion 1:N con Cliente
+	private ArrayList<Cliente> clientes = null;
 
 	public Entrada() {
 
 	}
 
-	public Entrada(int codEntrada, int codProyeccion, int codRecibo, ArrayList<Proyeccion> proyecciones) {
+	public Entrada(int codEntrada, Date fechaCompra, float precioTotal, ArrayList<Proyeccion> proyecciones,
+			ArrayList<Cliente> clientes) {
+		super();
 		this.codEntrada = codEntrada;
-		this.codProyeccion = codProyeccion;
-		this.codRecibo = codRecibo;
+		this.fechaCompra = fechaCompra;
+		this.precioTotal = precioTotal;
 		this.proyecciones = proyecciones;
+		this.clientes = clientes;
 	}
 
 	public int getCodEntrada() {
@@ -34,20 +41,20 @@ public class Entrada {
 		this.codEntrada = codEntrada;
 	}
 
-	public int getCodProyeccion() {
-		return codProyeccion;
+	public Date getFechaCompra() {
+		return fechaCompra;
 	}
 
-	public void setCodProyeccion(int codProyeccion) {
-		this.codProyeccion = codProyeccion;
+	public void setFechaCompra(Date fechaCompra) {
+		this.fechaCompra = fechaCompra;
 	}
 
-	public int getCodRecibo() {
-		return codRecibo;
+	public float getPrecioTotal() {
+		return precioTotal;
 	}
 
-	public void setCodRecibo(int codRecibo) {
-		this.codRecibo = codRecibo;
+	public void setPrecioTotal(float precioTotal) {
+		this.precioTotal = precioTotal;
 	}
 
 	public ArrayList<Proyeccion> getProyecciones() {
@@ -58,9 +65,17 @@ public class Entrada {
 		this.proyecciones = proyecciones;
 	}
 
+	public ArrayList<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(codEntrada, codProyeccion, codRecibo, proyecciones);
+		return Objects.hash(clientes, codEntrada, fechaCompra, precioTotal, proyecciones);
 	}
 
 	@Override
@@ -72,14 +87,16 @@ public class Entrada {
 		if (getClass() != obj.getClass())
 			return false;
 		Entrada other = (Entrada) obj;
-		return codEntrada == other.codEntrada && codProyeccion == other.codProyeccion && codRecibo == other.codRecibo
+		return Objects.equals(clientes, other.clientes) && codEntrada == other.codEntrada
+				&& Objects.equals(fechaCompra, other.fechaCompra)
+				&& Float.floatToIntBits(precioTotal) == Float.floatToIntBits(other.precioTotal)
 				&& Objects.equals(proyecciones, other.proyecciones);
 	}
 
 	@Override
 	public String toString() {
-		return "Entrada [codEntrada=" + codEntrada + ", codProyeccion=" + codProyeccion + ", codRecibo=" + codRecibo
-				+ ", proyecciones=" + proyecciones + "]";
+		return "Entrada [codEntrada=" + codEntrada + ", fechaCompra=" + fechaCompra + ", precioTotal=" + precioTotal
+				+ ", proyecciones=" + proyecciones + ", clientes=" + clientes + "]";
 	}
 
 }
