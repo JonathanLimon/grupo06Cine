@@ -37,19 +37,17 @@ public class VentanaPrincipalIbai {
 	private JFrame frame;
 
 	private GestorClientes gestorCliente = new GestorClientes();
+	private GestorCines gestorCine = new GestorCines();
 	public String tituloSeleccionado = null;
 	public Date fechaSeleccionada = null;
 	public Time horaSeleccionada = null;
 	public Float precioSeleccionado = null;
-	public String nombreCine = null;
-
 	public int numSalaSeleccionada = 0;
 	public int codCine = 0;
-
 	public Float precioTotal = null;
-
 	private JPanel panelSelecCines;
 	private JPanel PanelLogin;
+	private JPanel PanelRegistro;
 	DefaultTableModel model = new DefaultTableModel();
 	private JTextField txtNombre = null;
 	private JTextField txtApellido = null;
@@ -58,10 +56,9 @@ public class VentanaPrincipalIbai {
 	private JTextField txtUserLogin;
 	private JComboBox<String> comboBoxSexo;
 	private JList<String> listCines;
-	private ArrayList<Cine> cine = new ArrayList<Cine>();
-
 	private JPasswordField txtUserPass;
 	private JTextField txtContras;
+	public String nombreCine = null;
 
 	public static void main(String[] args) {
 
@@ -110,7 +107,12 @@ public class VentanaPrincipalIbai {
 		seleccionCinesLogo.setBounds(376, 11, 137, 156);
 		panelSelecCines.add(seleccionCinesLogo);
 
-		JButton btnFinalizar = new JButton("FINALIZAR");
+		JButton btnFinalizar = new JButton("ACEPTAR");
+		btnFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				seleccionarCine();
+			}
+		});
 		btnFinalizar.setBounds(221, 392, 96, 38);
 		panelSelecCines.add(btnFinalizar);
 
@@ -118,13 +120,7 @@ public class VentanaPrincipalIbai {
 		listCines.setBounds(78, 132, 406, 230);
 		panelSelecCines.add(listCines);
 
-		PanelLogin = new JPanel();
-		PanelLogin.setBounds(0, 0, 564, 441);
-		frame.getContentPane().add(PanelLogin);
-		PanelLogin.setVisible(false);
-		PanelLogin.setLayout(null);
-
-		JPanel PanelRegistro = new JPanel();
+		PanelRegistro = new JPanel();
 		PanelRegistro.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(PanelRegistro);
 		PanelRegistro.setLayout(null);
@@ -156,7 +152,7 @@ public class VentanaPrincipalIbai {
 		PanelRegistro.add(lblUsuario);
 
 		JLabel lblContraseña = new JLabel("Contraseña");
-		lblContraseña.setBounds(283, 279, 56, 14);
+		lblContraseña.setBounds(279, 279, 74, 14);
 		PanelRegistro.add(lblContraseña);
 
 		JButton btnAtrasRegistro = new JButton("Atrás");
@@ -167,7 +163,7 @@ public class VentanaPrincipalIbai {
 				PanelRegistro.setVisible(false);
 			}
 		});
-		btnAtrasRegistro.setBounds(181, 361, 89, 23);
+		btnAtrasRegistro.setBounds(158, 361, 89, 23);
 		PanelRegistro.add(btnAtrasRegistro);
 
 		JButton btnAceptarRegistro = new JButton("Aceptar");
@@ -176,7 +172,7 @@ public class VentanaPrincipalIbai {
 				aceptarRegistro();
 			}
 		});
-		btnAceptarRegistro.setBounds(349, 361, 89, 23);
+		btnAceptarRegistro.setBounds(305, 361, 89, 23);
 		PanelRegistro.add(btnAceptarRegistro);
 
 		txtNombre = new JTextField();
@@ -204,9 +200,15 @@ public class VentanaPrincipalIbai {
 		PanelRegistro.add(txtContras);
 
 		comboBoxSexo = new JComboBox<String>();
-		comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] { "Seleccione", "Hombre", "Mujer" }));
+		comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] { "Hombre", "Mujer", "Otro" }));
 		comboBoxSexo.setBounds(125, 286, 86, 22);
 		PanelRegistro.add(comboBoxSexo);
+
+		PanelLogin = new JPanel();
+		PanelLogin.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(PanelLogin);
+		PanelLogin.setVisible(false);
+		PanelLogin.setLayout(null);
 
 		JPanel PanelBienvenida = new JPanel();
 		PanelBienvenida.setLayout(null);
@@ -237,9 +239,8 @@ public class VentanaPrincipalIbai {
 		JButton btnAccederCuenta = new JButton("Acceder");
 		btnAccederCuenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GestorClientes gestCli = new GestorClientes();
 				String pwd = new String(txtUserPass.getPassword());
-				if (gestCli.validarLogin(txtUserLogin.getText(), pwd)) {
+				if (gestorCliente.validarLogin(txtUserLogin.getText(), pwd)) {
 					PanelLogin.setVisible(false);
 					panelSelecCines.setVisible(true);
 				} else {
@@ -337,27 +338,54 @@ public class VentanaPrincipalIbai {
 		Cliente cliente = new Cliente();
 
 		String sexoSeleccionado = comboBoxSexo.getSelectedItem().toString();
+		String nombre = txtNombre.getText();
+		String apellido = txtApellido.getText();
+		String dni = txtDni.getText();
+		String contraseña = txtContras.getText();
+		String usuario = txtUsuario.getText();
 
-		cliente.setNombre(txtNombre.getText());
-		cliente.setApellido(txtApellido.getText());
-		cliente.setDNI(txtDni.getText());
-		cliente.setSexo(sexoSeleccionado);
-		cliente.setContraseña(txtContras.getText());
-		cliente.setUsuario(txtUsuario.getText());
-		gestorCliente.insertCliente(cliente);
+		if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || sexoSeleccionado.isEmpty()
+				|| contraseña.isEmpty() || usuario.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Todos los campos deben estar completos", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		} else {
+			cliente.setNombre(nombre);
+			cliente.setApellido(apellido);
+			cliente.setDNI(dni);
+			cliente.setSexo(sexoSeleccionado);
+			cliente.setContraseña(contraseña);
+			cliente.setUsuario(usuario);
+
+			PanelRegistro.setVisible(false);
+			PanelLogin.setVisible(true);
+
+		}
 
 	}
 
 	private void mostrarListaCines() {
-		GestorCines gestorCine = new GestorCines();
 
-		gestorCine.obtenerTodosLosCines(cine);
+		ArrayList<Cine> listaCines = gestorCine.obtenerTodosLosCines();
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
 
-		DefaultListModel listModel = new DefaultListModel();
-
-		for (int i = 0; i < cine.size(); i++) {
-			listModel.add(i, cine.get(i));
+		for (Cine cine : listaCines) {
+			String infoCine = cine.getNombre() + ", " + cine.getDireccion();
+			listModel.addElement(infoCine);
 		}
+
 		listCines.setModel(listModel);
+
+	}
+
+	private void seleccionarCine() {
+		String cineSeleccionado = listCines.getSelectedValue();
+		String[] partes = cineSeleccionado.split(", ");
+
+		String nombreCine = partes[0];
+		
+		int codCine = gestorCine.obtenerCodCinePorNombre(nombreCine);
+		
+		
+		
 	}
 }
