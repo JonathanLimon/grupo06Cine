@@ -56,6 +56,7 @@ public class VentanaPrincipalIbai {
 	private JTextField txtUserLogin;
 	private JComboBox<String> comboBoxSexo;
 	private JList<String> listCines;
+	private JList<String> listaPeliculas;
 	private JPasswordField txtUserPass;
 	private JTextField txtContras;
 	public String nombreCine = null;
@@ -117,8 +118,29 @@ public class VentanaPrincipalIbai {
 		panelSelecCines.add(btnFinalizar);
 
 		listCines = new JList<String>();
+		listCines.setForeground(new Color(0, 0, 0));
 		listCines.setBounds(78, 132, 406, 230);
 		panelSelecCines.add(listCines);
+
+		JPanel panelSelecPelis = new JPanel();
+		panelSelecPelis.setLayout(null);
+		panelSelecPelis.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(panelSelecPelis);
+
+		JLabel labelSeleccionPelis = new JLabel("Selecciona una Pelicula");
+		labelSeleccionPelis.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		labelSeleccionPelis.setBounds(43, 101, 250, 37);
+		panelSelecPelis.add(labelSeleccionPelis);
+
+		JLabel labelLogoPelis = new JLabel("");
+		labelLogoPelis.setBounds(344, 190, 192, 188);
+		panelSelecPelis.add(labelLogoPelis);
+
+		listaPeliculas = new JList<String>();
+		listaPeliculas.setForeground(Color.WHITE);
+		listaPeliculas.setBackground(new Color(255, 255, 255));
+		listaPeliculas.setBounds(298, 406, -261, -221);
+		panelSelecPelis.add(listaPeliculas);
 
 		PanelRegistro = new JPanel();
 		PanelRegistro.setBounds(0, 0, 564, 441);
@@ -382,10 +404,8 @@ public class VentanaPrincipalIbai {
 		String[] partes = cineSeleccionado.split(", ");
 
 		String nombreCine = partes[0];
-		
+
 		int codCine = gestorCine.obtenerCodCinePorNombre(nombreCine);
-		
-		
-		
+
 	}
 }

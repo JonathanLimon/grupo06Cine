@@ -50,7 +50,7 @@ public class VentanaPeliculas {
 
 		JLabel labelLogoPelis = new JLabel("");
 		labelLogoPelis.setIcon(new ImageIcon("C:\\Users\\in1dw3\\Desktop\\Ibai\\Reto 3\\bienvenida.png"));
-		labelLogoPelis.setBounds(362, 11, 192, 188);
+		labelLogoPelis.setBounds(344, 190, 192, 188);
 		panelSelecPelis.add(labelLogoPelis);
 
 		JList listaPeliculas = new JList();
