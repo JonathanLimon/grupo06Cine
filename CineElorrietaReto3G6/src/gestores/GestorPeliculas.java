@@ -15,14 +15,11 @@ import pojos.Pelicula;
 
 public class GestorPeliculas {
 
-	public ArrayList<Pelicula> obtenerPeliculasCine(int codCine) {
+	public ArrayList<Pelicula> obtenerPeliculasCine(int codCineBuscado) {
 		ArrayList<Pelicula> ret = null;
 
-		String sql = "SELECT Cine.Codigo AS CodigoCine, Pelicula.*" + "FROM Cine"
-				+ "JOIN Sala ON Cine.Codigo = Sala.CodigoCine"
-				+ "JOIN Proyeccion ON Sala.Codigo = Proyeccion.CodigoSala"
-				+ "JOIN Pelicula ON Proyeccion.CodigoPelicula = Pelicula.Codigo" + "WHERE Cine.Codigo = '" + codCine
-				+ "'";
+		String sql = "SELECT Pelicula.Titulo, Pelicula.Duracion, Pelicula.Genero, Pelicula.PrecioPelicula FROM Cine JOIN Sala ON Cine.Codigo = Sala.CodigoCine JOIN Proyeccion ON Sala.Codigo = Proyeccion.CodigoSala JOIN Pelicula ON Proyeccion.CodigoPelicula = Pelicula.Codigo WHERE Cine.Codigo = '"
+				+ codCineBuscado + "'";
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;

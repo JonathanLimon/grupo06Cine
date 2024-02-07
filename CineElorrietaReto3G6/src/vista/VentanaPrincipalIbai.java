@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -47,11 +48,11 @@ public class VentanaPrincipalIbai {
 	public Time horaSeleccionada = null;
 	public Float precioSeleccionado = null;
 	public int numSalaSeleccionada = 0;
-	public int codCine = 0;
 	public Float precioTotal = null;
 	private JPanel panelSelecCines;
 	private JPanel PanelLogin;
 	private JPanel PanelRegistro;
+	private JPanel panelSelecPelis;
 	DefaultTableModel model = new DefaultTableModel();
 	private JTextField txtNombre = null;
 	private JTextField txtApellido = null;
@@ -60,9 +61,10 @@ public class VentanaPrincipalIbai {
 	private JTextField txtUserLogin;
 	private JComboBox<String> comboBoxSexo;
 	private JList<String> listCines;
-	private JList<String> listaPeliculas;
+	private JList<String> listPeliculas;
 	private JPasswordField txtUserPass;
 	private JTextField txtContras;
+	private int codCineBuscado = 0;
 	public String nombreCine = null;
 
 	public static void main(String[] args) {
@@ -95,6 +97,22 @@ public class VentanaPrincipalIbai {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
+		panelSelecPelis = new JPanel();
+		panelSelecPelis.setLayout(null);
+		panelSelecPelis.setBounds(0, 0, 564, 441);
+		panelSelecPelis.setVisible(false);
+		frame.getContentPane().add(panelSelecPelis);
+
+		JLabel labelSeleccionPelis = new JLabel("Selecciona una Pelicula");
+		labelSeleccionPelis.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		labelSeleccionPelis.setBounds(173, 100, 250, 37);
+		panelSelecPelis.add(labelSeleccionPelis);
+
+		listPeliculas = new JList<String>();
+		listPeliculas.setForeground(Color.BLACK);
+		listPeliculas.setBounds(114, 177, 359, 230);
+		panelSelecPelis.add(listPeliculas);
+
 		panelSelecCines = new JPanel();
 		panelSelecCines.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(panelSelecCines);
@@ -125,26 +143,6 @@ public class VentanaPrincipalIbai {
 		listCines.setForeground(new Color(0, 0, 0));
 		listCines.setBounds(78, 132, 406, 230);
 		panelSelecCines.add(listCines);
-
-		JPanel panelSelecPelis = new JPanel();
-		panelSelecPelis.setLayout(null);
-		panelSelecPelis.setBounds(0, 0, 564, 441);
-		frame.getContentPane().add(panelSelecPelis);
-
-		JLabel labelSeleccionPelis = new JLabel("Selecciona una Pelicula");
-		labelSeleccionPelis.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		labelSeleccionPelis.setBounds(43, 101, 250, 37);
-		panelSelecPelis.add(labelSeleccionPelis);
-
-		JLabel labelLogoPelis = new JLabel("");
-		labelLogoPelis.setBounds(344, 190, 192, 188);
-		panelSelecPelis.add(labelLogoPelis);
-
-		listaPeliculas = new JList<String>();
-		listaPeliculas.setForeground(Color.WHITE);
-		listaPeliculas.setBackground(new Color(255, 255, 255));
-		listaPeliculas.setBounds(298, 406, -261, -221);
-		panelSelecPelis.add(listaPeliculas);
 
 		PanelRegistro = new JPanel();
 		PanelRegistro.setBounds(0, 0, 564, 441);
@@ -321,22 +319,17 @@ public class VentanaPrincipalIbai {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					btnAccederCuenta.doClick();
 				}
-
 			}
 
 			public void keyReleased(KeyEvent e) {
 			}
 		});
-
-		// Action Listeners
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelLogin.setVisible(false);
 				PanelRegistro.setVisible(true);
 			}
 		});
-
-		// Buttons
 
 		JButton bBotonBienvenida = new JButton("BIENVENIDO");
 		bBotonBienvenida.addActionListener(new ActionListener() {
@@ -409,19 +402,35 @@ public class VentanaPrincipalIbai {
 
 		String nombreCine = partes[0];
 
-		int codCine = gestorCine.obtenerCodCinePorNombre(nombreCine);
+		gestorCine.obtenerCodCinePorNombre(nombreCine);
 
-		gestorPelicula.obtenerPeliculasCine(codCine);
+		mostrarListaPeliculas();
+	}
 
-		ArrayList<Pelicula> listaPeliculas = gestorPelicula.obtenerPeliculasCine(codCine);
-		DefaultListModel<String> listModel = new DefaultListModel<String>();
+	private void mostrarListaPeliculas() {
+		
+		ArrayList<Pelicula> listaPeliculas = gestorPelicula.obtenerPeliculasCine(codCineBuscado);
 
-		for (Pelicula pelicula : listaPeliculas) {
-			String peliculas = pelicula.getTitulo() + ", " + pelicula.getDuracion() + ", " + pelicula.getGenero() + ", "
-					+ pelicula.getPrecio();
-			listModel.addElement(peliculas);
+		if (listaPeliculas != null) {
+			DefaultListModel<String> listModel = new DefaultListModel<>();
+
+			StringBuilder stringBuilder = new StringBuilder();
+
+			for (Pelicula pelicula : listaPeliculas) {
+				stringBuilder.setLength(0);
+				stringBuilder.append(pelicula.getTitulo()).append(", ").append(pelicula.getDuracion()).append(", ")
+						.append(pelicula.getGenero()).append(", ").append(pelicula.getPrecio());
+
+				listModel.addElement(stringBuilder.toString());
+			}
+
+			listPeliculas.setModel(listModel);
+		} else {
+			JOptionPane.showMessageDialog(null, "Error");
 		}
 
-		listCines.setModel(listModel);
+		panelSelecCines.setVisible(false);
+		panelSelecPelis.setVisible(true);
 	}
+
 }

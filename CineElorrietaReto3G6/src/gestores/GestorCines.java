@@ -76,7 +76,7 @@ public class GestorCines {
 	public int obtenerCodCinePorNombre(String cineNom) {
 		Cine cine = new Cine();
 		int ret = 0;
-		String sql = "select codigo from t_cine where nombre = '" + cineNom + "'";
+		String sql = "select codigo from cine where nombre = '" + cineNom + "'";
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
