@@ -12,7 +12,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -64,7 +63,6 @@ public class VentanaPrincipalIbai {
 	private JList<String> listPeliculas;
 	private JPasswordField txtUserPass;
 	private JTextField txtContras;
-	private int codCineBuscado = 0;
 	public String nombreCine = null;
 
 	public static void main(String[] args) {
@@ -402,35 +400,20 @@ public class VentanaPrincipalIbai {
 
 		String nombreCine = partes[0];
 
-		gestorCine.obtenerCodCinePorNombre(nombreCine);
+		int codCineBuscado = gestorCine.obtenerCodCinePorNombre(nombreCine);
 
-		mostrarListaPeliculas();
-	}
-
-	private void mostrarListaPeliculas() {
-		
 		ArrayList<Pelicula> listaPeliculas = gestorPelicula.obtenerPeliculasCine(codCineBuscado);
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
 
-		if (listaPeliculas != null) {
-			DefaultListModel<String> listModel = new DefaultListModel<>();
-
-			StringBuilder stringBuilder = new StringBuilder();
-
-			for (Pelicula pelicula : listaPeliculas) {
-				stringBuilder.setLength(0);
-				stringBuilder.append(pelicula.getTitulo()).append(", ").append(pelicula.getDuracion()).append(", ")
-						.append(pelicula.getGenero()).append(", ").append(pelicula.getPrecio());
-
-				listModel.addElement(stringBuilder.toString());
-			}
-
-			listPeliculas.setModel(listModel);
-		} else {
-			JOptionPane.showMessageDialog(null, "Error");
+		for (Pelicula pelicula : listaPeliculas) {
+			String peliculas = pelicula.getTitulo() + ", " + pelicula.getDuracion() + ", " + pelicula.getGenero() + ", "
+					+ pelicula.getPrecio();
+			listModel.addElement(peliculas);
 		}
+
+		listPeliculas.setModel(listModel);
 
 		panelSelecCines.setVisible(false);
 		panelSelecPelis.setVisible(true);
 	}
-
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import DBUtils.DBUtils;
+import pojos.Cine;
 import pojos.Pelicula;
 
 public class GestorPeliculas {
