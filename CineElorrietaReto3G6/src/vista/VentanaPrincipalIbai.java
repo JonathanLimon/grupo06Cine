@@ -27,8 +27,11 @@ import javax.swing.table.DefaultTableModel;
 
 import gestores.GestorCines;
 import gestores.GestorClientes;
+import gestores.GestorPeliculas;
 import pojos.Cine;
 import pojos.Cliente;
+import pojos.Pelicula;
+
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
@@ -37,6 +40,7 @@ public class VentanaPrincipalIbai {
 	private JFrame frame;
 
 	private GestorClientes gestorCliente = new GestorClientes();
+	private GestorPeliculas gestorPelicula = new GestorPeliculas();
 	private GestorCines gestorCine = new GestorCines();
 	public String tituloSeleccionado = null;
 	public Date fechaSeleccionada = null;
@@ -407,5 +411,17 @@ public class VentanaPrincipalIbai {
 
 		int codCine = gestorCine.obtenerCodCinePorNombre(nombreCine);
 
+		gestorPelicula.obtenerPeliculasCine(codCine);
+
+		ArrayList<Pelicula> listaPeliculas = gestorPelicula.obtenerPeliculasCine(codCine);
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
+
+		for (Pelicula pelicula : listaPeliculas) {
+			String peliculas = pelicula.getTitulo() + ", " + pelicula.getDuracion() + ", " + pelicula.getGenero() + ", "
+					+ pelicula.getPrecio();
+			listModel.addElement(peliculas);
+		}
+
+		listCines.setModel(listModel);
 	}
 }
