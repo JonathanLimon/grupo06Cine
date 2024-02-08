@@ -20,7 +20,7 @@ public class GestorPeliculas {
 		ArrayList<Pelicula> ret = null;
 
 		String sql = "SELECT Pelicula.Titulo, Pelicula.Duracion, Pelicula.Genero, Pelicula.PrecioPelicula FROM Cine JOIN Sala ON Cine.Codigo = Sala.CodigoCine JOIN Proyeccion ON Sala.Codigo = Proyeccion.CodigoSala JOIN Pelicula ON Proyeccion.CodigoPelicula = Pelicula.Codigo WHERE Cine.Codigo = '"
-				+ codCineBuscado + "'";
+				+ codCineBuscado + "' Order by duracion";
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
