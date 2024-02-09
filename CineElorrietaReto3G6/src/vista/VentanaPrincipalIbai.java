@@ -11,6 +11,8 @@ import java.awt.event.KeyListener;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashSet;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -20,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -112,6 +115,50 @@ public class VentanaPrincipalIbai {
 		panelSelecPelis.setBounds(0, 0, 564, 441);
 		panelSelecPelis.setVisible(false);
 
+		panelCarrito = new JPanel();
+		panelCarrito.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(panelCarrito);
+		panelCarrito.setLayout(null);
+		panelCarrito.setVisible(false);
+
+		JButton btnPagarCarrito = new JButton("Pagar");
+		btnPagarCarrito.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pagarCarrito();
+			}
+		});
+		btnPagarCarrito.setBounds(465, 11, 89, 23);
+		panelCarrito.add(btnPagarCarrito);
+
+		JButton btnAtrasCarrito = new JButton("Atrás");
+		btnAtrasCarrito.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				panelCarrito.setVisible(false);
+				PanelLogin.setVisible(true);
+			}
+		});
+		btnAtrasCarrito.setBounds(10, 11, 89, 23);
+		panelCarrito.add(btnAtrasCarrito);
+
+		JLabel lblCarrito = new JLabel("CARRITO");
+		lblCarrito.setBounds(241, 27, 89, 48);
+		lblCarrito.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panelCarrito.add(lblCarrito);
+
+		listCarrito = new JList<String>();
+		listCarrito.setBounds(68, 96, 426, 275);
+		panelCarrito.add(listCarrito);
+
+		JScrollPane scrollCarrito = new JScrollPane(listCarrito);
+		scrollCarrito.setBounds(68, 96, 426, 275);
+		panelCarrito.add(scrollCarrito);
+
+		lblPrecioTotalCarrito = new JLabel("0");
+		lblPrecioTotalCarrito.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPrecioTotalCarrito.setBounds(276, 407, 148, 23);
+		panelCarrito.add(lblPrecioTotalCarrito);
+
 		panelSelecFecha = new JPanel();
 		panelSelecFecha.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(panelSelecFecha);
@@ -202,41 +249,6 @@ public class VentanaPrincipalIbai {
 		lblPrecioNum.setBounds(101, 366, 83, 14);
 		panelSelecFecha.add(lblPrecioNum);
 
-		panelCarrito = new JPanel();
-		panelCarrito.setBounds(0, 0, 564, 441);
-		frame.getContentPane().add(panelCarrito);
-		panelCarrito.setLayout(null);
-		panelCarrito.setVisible(false);
-
-		JButton btnPagarCarrito = new JButton("Pagar");
-		btnPagarCarrito.setBounds(465, 11, 89, 23);
-		panelCarrito.add(btnPagarCarrito);
-
-		JButton btnAtrasCarrito = new JButton("Atrás");
-		btnAtrasCarrito.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				panelCarrito.setVisible(false);
-				PanelLogin.setVisible(true);
-			}
-		});
-		btnAtrasCarrito.setBounds(10, 11, 89, 23);
-		panelCarrito.add(btnAtrasCarrito);
-
-		JLabel lblCarrito = new JLabel("CARRITO");
-		lblCarrito.setBounds(241, 27, 89, 48);
-		lblCarrito.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panelCarrito.add(lblCarrito);
-
-		listCarrito = new JList<String>();
-		listCarrito.setBounds(68, 96, 426, 275);
-		panelCarrito.add(listCarrito);
-
-		lblPrecioTotalCarrito = new JLabel("");
-		lblPrecioTotalCarrito.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPrecioTotalCarrito.setBounds(10, 407, 148, 23);
-		panelCarrito.add(lblPrecioTotalCarrito);
-
 		PanelLogin = new JPanel();
 		PanelLogin.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(PanelLogin);
@@ -271,6 +283,7 @@ public class VentanaPrincipalIbai {
 
 		JButton btnAccederCuenta = new JButton("Acceder");
 		btnAccederCuenta.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				String pwd = new String(txtUserPass.getPassword());
 				if (gestorCliente.validarLogin(txtUserLogin.getText(), pwd)) {
@@ -369,6 +382,10 @@ public class VentanaPrincipalIbai {
 		listPeliculas.setBounds(114, 177, 359, 230);
 		panelSelecPelis.add(listPeliculas);
 
+		JScrollPane scrollPelicula = new JScrollPane(listPeliculas);
+		scrollPelicula.setBounds(114, 177, 359, 230);
+		panelSelecPelis.add(scrollPelicula);
+
 		JButton btnAtrasPelicula = new JButton("Atrás");
 		btnAtrasPelicula.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -426,6 +443,10 @@ public class VentanaPrincipalIbai {
 		listCines.setForeground(new Color(0, 0, 0));
 		listCines.setBounds(78, 132, 406, 230);
 		panelSelecCines.add(listCines);
+
+		JScrollPane scrollCines = new JScrollPane(listCines);
+		scrollCines.setBounds(78, 132, 406, 230);
+		panelSelecCines.add(scrollCines);
 
 		JButton btnAtrasCine = new JButton("Atrás");
 		btnAtrasCine.addActionListener(new ActionListener() {
@@ -626,19 +647,24 @@ public class VentanaPrincipalIbai {
 	private void añadirCarrito() {
 
 		String entrada = null;
+		int precioTotal = 0;
 		DefaultListModel<String> modeloCarrito = new DefaultListModel<>();
 		int precioEntrada = Integer.parseInt(lblPrecioNum.getText());
 		int cantidadEntrada = Integer.parseInt(textFieldCantidad.getText());
+		int precioSelec = Integer.parseInt(lblPrecioTotalCarrito.getText());
 		String peliculaSeleccionada = lblPeliculaSelec.getText();
 		String fechaSeleccionada = comboBoxFecha.getSelectedItem().toString();
 		String horaSeleccionada = comboBoxHora.getSelectedItem().toString();
 
-		int precioTotal = precioEntrada * cantidadEntrada;
-		lblPrecioTotalCarrito.setText("Precio Total:" + precioTotal);
+		if (precioSelec == 0) {
+			precioTotal = precioEntrada * cantidadEntrada;
+		} else {
+			precioTotal = precioSelec + (precioEntrada * cantidadEntrada);
+		}
+
+		lblPrecioTotalCarrito.setText("" + precioTotal);
 
 		entrada = peliculaSeleccionada + ", " + fechaSeleccionada + ", " + horaSeleccionada;
-
-		System.out.print(entrada);
 
 		for (int i = 0; i < cantidadEntrada; i++) {
 			peliculasCarrito.add(entrada);
@@ -687,5 +713,49 @@ public class VentanaPrincipalIbai {
 			modeloHora.addElement(hora);
 		}
 		comboBoxHora.setModel(modeloHora);
+	}
+
+	private void pagarCarrito() {
+
+		double precioTotal = Double.parseDouble(lblPrecioTotalCarrito.getText());
+
+		HashSet<String> listaCarrito = new HashSet<>(peliculasCarrito);
+		peliculasCarrito.clear();
+		peliculasCarrito.addAll(listaCarrito);
+
+		int longitud = peliculasCarrito.size();
+
+		if (longitud == 1) {
+
+			comprar();
+
+		} else if (longitud == 2) {
+
+			double porcentajeDescuento = 0.20;
+			double cantidadDescuento = precioTotal * porcentajeDescuento;
+
+			precioTotal = precioTotal - cantidadDescuento;
+
+			comprarDescuento(precioTotal);
+
+		} else {
+
+			double porcentajeDescuento = 0.30;
+			double cantidadDescuento = precioTotal * porcentajeDescuento;
+
+			precioTotal = precioTotal - cantidadDescuento;
+
+			comprarDescuento(precioTotal);
+
+		}
+
+	}
+
+	private void comprarDescuento(double precioTotal) {
+
+	}
+
+	private void comprar() {
+
 	}
 }
