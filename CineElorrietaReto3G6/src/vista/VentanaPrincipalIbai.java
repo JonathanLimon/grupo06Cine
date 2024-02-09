@@ -103,6 +103,47 @@ public class VentanaPrincipalIbai {
 		panelSelecPelis.setBounds(0, 0, 564, 441);
 		panelSelecPelis.setVisible(false);
 
+		JPanel panelSelecFecha = new JPanel();
+		panelSelecFecha.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(panelSelecFecha);
+		panelSelecFecha.setLayout(null);
+
+		JLabel lblTitulo = new JLabel("Pelicula:");
+		lblTitulo.setBounds(131, 38, 50, 19);
+		panelSelecFecha.add(lblTitulo);
+
+		JComboBox<String> comboBoxHora = new JComboBox<String>();
+		comboBoxHora.setBounds(327, 309, 173, 22);
+		panelSelecFecha.add(comboBoxHora);
+
+		JLabel lblPeliculaSelec = new JLabel("");
+		lblPeliculaSelec.setBounds(191, 38, 212, 19);
+		panelSelecFecha.add(lblPeliculaSelec);
+
+		JLabel lblFechas = new JLabel("DIAS:");
+		lblFechas.setBounds(133, 284, 31, 14);
+		panelSelecFecha.add(lblFechas);
+
+		JComboBox<String> comboBoxFecha = new JComboBox<String>();
+		comboBoxFecha.setBounds(56, 309, 173, 22);
+		panelSelecFecha.add(comboBoxFecha);
+
+		JLabel lblHora = new JLabel("HORAS:");
+		lblHora.setBounds(396, 284, 46, 14);
+		panelSelecFecha.add(lblHora);
+
+		JLabel lblFotoPelicula = new JLabel("");
+		lblFotoPelicula.setBounds(191, 80, 165, 180);
+		panelSelecFecha.add(lblFotoPelicula);
+
+		JButton btnAceptarFecha = new JButton("ACEPTAR");
+		btnAceptarFecha.setBounds(233, 407, 89, 23);
+		panelSelecFecha.add(btnAceptarFecha);
+
+		JButton btnAtrasFechas = new JButton("ATRAS");
+		btnAtrasFechas.setBounds(10, 11, 77, 23);
+		panelSelecFecha.add(btnAtrasFechas);
+
 		panelCarrito = new JPanel();
 		panelCarrito.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(panelCarrito);
