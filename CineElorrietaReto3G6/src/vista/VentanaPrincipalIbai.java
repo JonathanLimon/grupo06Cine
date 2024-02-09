@@ -28,9 +28,11 @@ import javax.swing.table.DefaultTableModel;
 import gestores.GestorCines;
 import gestores.GestorClientes;
 import gestores.GestorPeliculas;
+import gestores.GestorProyecciones;
 import pojos.Cine;
 import pojos.Cliente;
 import pojos.Pelicula;
+import pojos.Proyeccion;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -41,6 +43,7 @@ public class VentanaPrincipalIbai {
 
 	private GestorClientes gestorCliente = new GestorClientes();
 	private GestorPeliculas gestorPelicula = new GestorPeliculas();
+	private GestorProyecciones gestorProyecciones = new GestorProyecciones();
 	private ArrayList<String> peliculasCarrito = new ArrayList<String>();
 	private GestorCines gestorCine = new GestorCines();
 	public String tituloSeleccionado = null;
@@ -54,19 +57,25 @@ public class VentanaPrincipalIbai {
 	private JPanel PanelRegistro;
 	private JPanel panelSelecPelis;
 	private JPanel panelCarrito;
+	private JPanel panelSelecFecha;
 	DefaultTableModel model = new DefaultTableModel();
 	private JTextField txtNombre = null;
 	private JTextField txtApellido = null;
 	private JTextField txtDni = null;
 	private JTextField txtUsuario = null;
 	private JTextField txtUserLogin;
+	private JComboBox<String> comboBoxFecha;
 	private JComboBox<String> comboBoxSexo;
+	private JComboBox<String> comboBoxHora;
 	private JList<String> listCines;
 	private JList<String> listPeliculas;
 	private JList<String> listCarrito;
 	private JPasswordField txtUserPass;
 	private JTextField txtContras;
 	public String nombreCine = null;
+	private JLabel lblTitulo;
+	private JLabel lblPeliculaSelec;
+	private int codCineBuscado = 0;
 
 	public static void main(String[] args) {
 
@@ -103,28 +112,34 @@ public class VentanaPrincipalIbai {
 		panelSelecPelis.setBounds(0, 0, 564, 441);
 		panelSelecPelis.setVisible(false);
 
-		JPanel panelSelecFecha = new JPanel();
+		panelSelecFecha = new JPanel();
 		panelSelecFecha.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(panelSelecFecha);
 		panelSelecFecha.setLayout(null);
+		panelSelecFecha.setVisible(false);
 
-		JLabel lblTitulo = new JLabel("Pelicula:");
-		lblTitulo.setBounds(131, 38, 50, 19);
+		lblTitulo = new JLabel("Pelicula:");
+		lblTitulo.setBounds(179, 38, 50, 19);
 		panelSelecFecha.add(lblTitulo);
 
-		JComboBox<String> comboBoxHora = new JComboBox<String>();
+		comboBoxHora = new JComboBox<String>();
 		comboBoxHora.setBounds(327, 309, 173, 22);
 		panelSelecFecha.add(comboBoxHora);
 
-		JLabel lblPeliculaSelec = new JLabel("");
-		lblPeliculaSelec.setBounds(191, 38, 212, 19);
+		lblPeliculaSelec = new JLabel("");
+		lblPeliculaSelec.setBounds(233, 38, 212, 19);
 		panelSelecFecha.add(lblPeliculaSelec);
 
 		JLabel lblFechas = new JLabel("DIAS:");
 		lblFechas.setBounds(133, 284, 31, 14);
 		panelSelecFecha.add(lblFechas);
 
-		JComboBox<String> comboBoxFecha = new JComboBox<String>();
+		comboBoxFecha = new JComboBox<String>();
+		comboBoxFecha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				seleccionarHora();
+			}
+		});
 		comboBoxFecha.setBounds(56, 309, 173, 22);
 		panelSelecFecha.add(comboBoxFecha);
 
@@ -141,6 +156,19 @@ public class VentanaPrincipalIbai {
 		panelSelecFecha.add(btnAceptarFecha);
 
 		JButton btnAtrasFechas = new JButton("ATRAS");
+		btnAtrasFechas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				panelSelecFecha.setVisible(false);
+				panelSelecPelis.setVisible(true);
+
+				comboBoxFecha.removeAllItems();
+				comboBoxHora.removeAllItems();
+
+				lblTitulo.setText("");
+
+			}
+		});
 		btnAtrasFechas.setBounds(10, 11, 77, 23);
 		panelSelecFecha.add(btnAtrasFechas);
 
@@ -325,11 +353,9 @@ public class VentanaPrincipalIbai {
 			public void actionPerformed(ActionEvent e) {
 
 				panelSelecPelis.setVisible(false);
-				panelSelecCines.setVisible(true);
+				panelSelecFecha.setVisible(true);
 
-				añadirCarrito();
-				mostrarListaCines();
-
+				fechasPeliculas();
 			}
 		});
 		btnPelicula.setBounds(240, 407, 89, 23);
@@ -545,15 +571,14 @@ public class VentanaPrincipalIbai {
 
 		String nombreCine = partes[0];
 
-		int codCineBuscado = gestorCine.obtenerCodCinePorNombre(nombreCine);
+		codCineBuscado = gestorCine.obtenerCodCinePorNombre(nombreCine);
 
 		ArrayList<Pelicula> listaPeliculas = gestorPelicula.obtenerPeliculasCine(codCineBuscado);
 
 		DefaultListModel<String> modeloPelicula = new DefaultListModel<String>();
 
 		for (Pelicula pelicula : listaPeliculas) {
-			String peliculas = pelicula.getTitulo() + ", " + pelicula.getDuracion() + ", " + pelicula.getGenero() + ", "
-					+ pelicula.getPrecio();
+			String peliculas = pelicula.getTitulo();
 			modeloPelicula.addElement(peliculas);
 		}
 
@@ -572,7 +597,44 @@ public class VentanaPrincipalIbai {
 		for (int i = 0; i < peliculasCarrito.size(); i++) {
 			modeloCarrito.add(i, peliculasCarrito.get(i));
 		}
-
 		listCarrito.setModel(modeloCarrito);
+	}
+
+	private void fechasPeliculas() {
+
+		String peliSeleccionada = listPeliculas.getSelectedValue();
+		String[] partes = peliSeleccionada.split(", ");
+
+		String nombrePelicula = partes[0];
+
+		lblPeliculaSelec.setText(nombrePelicula);
+
+		ArrayList<Proyeccion> fechas = gestorProyecciones.obtenerFechaPeliculaCine(codCineBuscado, nombrePelicula);
+
+		DefaultComboBoxModel<String> modeloFecha = new DefaultComboBoxModel<String>();
+
+		for (Proyeccion proyeccion : fechas) {
+			String fecha = proyeccion.getFecha().toString();
+			modeloFecha.addElement(fecha);
+		}
+		comboBoxFecha.setModel(modeloFecha);
+	}
+
+	private void seleccionarHora() {
+
+		String fechaElegida = comboBoxFecha.getSelectedItem().toString();
+
+		String tituloPelicula = lblPeliculaSelec.getText();
+
+		ArrayList<Proyeccion> horas = gestorProyecciones.obtenerHoraPeliculaCineFecha(codCineBuscado, tituloPelicula,
+				fechaElegida);
+
+		DefaultComboBoxModel<String> modeloHora = new DefaultComboBoxModel<String>();
+
+		for (Proyeccion proyeccion : horas) {
+			String hora = proyeccion.getHora().toString();
+			modeloHora.addElement(hora);
+		}
+		comboBoxHora.setModel(modeloHora);
 	}
 }

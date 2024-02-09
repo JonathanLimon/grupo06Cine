@@ -19,7 +19,7 @@ public class GestorPeliculas {
 	public ArrayList<Pelicula> obtenerPeliculasCine(int codCineBuscado) {
 		ArrayList<Pelicula> ret = null;
 
-		String sql = "SELECT Pelicula.Titulo, Pelicula.Genero, Pelicula.PrecioPelicula FROM Cine JOIN Sala ON Cine.Codigo = Sala.CodigoCine JOIN Proyeccion ON Sala.Codigo = Proyeccion.CodigoSala JOIN Pelicula ON Proyeccion.CodigoPelicula = Pelicula.Codigo WHERE Cine.Codigo = '"
+		String sql = "SELECT DISTINCT Pelicula.Titulo FROM Cine JOIN Sala ON Cine.Codigo = Sala.CodigoCine JOIN Proyeccion ON Sala.Codigo = Proyeccion.CodigoSala JOIN Pelicula ON Proyeccion.CodigoPelicula = Pelicula.Codigo WHERE Cine.Codigo = '"
 				+ codCineBuscado + "' Order by Pelicula.titulo";
 		Connection connection = null;
 		Statement statement = null;
@@ -40,12 +40,8 @@ public class GestorPeliculas {
 				Pelicula pelicula = new Pelicula();
 
 				String titulo = resultSet.getString("Titulo");
-				String genero = resultSet.getString("Genero");
-				float precioPelicula = resultSet.getFloat("PrecioPelicula");
 
 				pelicula.setTitulo(titulo);
-				pelicula.setGenero(genero);
-				pelicula.setPrecio(precioPelicula);
 
 				ret.add(pelicula);
 			}
