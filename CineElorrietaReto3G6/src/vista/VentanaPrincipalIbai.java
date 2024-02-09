@@ -119,7 +119,8 @@ public class VentanaPrincipalIbai {
 		panelSelecFecha.setVisible(false);
 
 		lblTitulo = new JLabel("Pelicula:");
-		lblTitulo.setBounds(179, 38, 50, 19);
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTitulo.setBounds(191, 38, 61, 19);
 		panelSelecFecha.add(lblTitulo);
 
 		comboBoxHora = new JComboBox<String>();
@@ -127,7 +128,8 @@ public class VentanaPrincipalIbai {
 		panelSelecFecha.add(comboBoxHora);
 
 		lblPeliculaSelec = new JLabel("");
-		lblPeliculaSelec.setBounds(233, 38, 212, 19);
+		lblPeliculaSelec.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPeliculaSelec.setBounds(251, 27, 234, 42);
 		panelSelecFecha.add(lblPeliculaSelec);
 
 		JLabel lblFechas = new JLabel("DIAS:");
@@ -162,15 +164,16 @@ public class VentanaPrincipalIbai {
 				panelSelecFecha.setVisible(false);
 				panelSelecPelis.setVisible(true);
 
-				comboBoxFecha.removeAllItems();
-				comboBoxHora.removeAllItems();
-
 				lblTitulo.setText("");
-
 			}
 		});
 		btnAtrasFechas.setBounds(10, 11, 77, 23);
 		panelSelecFecha.add(btnAtrasFechas);
+		
+		JLabel lblPrecio = new JLabel("Precio: 10€");
+		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPrecio.setBounds(112, 366, 83, 14);
+		panelSelecFecha.add(lblPrecio);
 
 		panelCarrito = new JPanel();
 		panelCarrito.setBounds(0, 0, 564, 441);
