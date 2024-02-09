@@ -11,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -24,7 +23,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
 import gestores.GestorCines;
 import gestores.GestorClientes;
 import gestores.GestorPeliculas;
@@ -51,13 +49,14 @@ public class VentanaPrincipalIbai {
 	public Time horaSeleccionada = null;
 	public Float precioSeleccionado = null;
 	public int numSalaSeleccionada = 0;
-	public Float precioTotal = null;
 	private JPanel panelSelecCines;
 	private JPanel PanelLogin;
 	private JPanel PanelRegistro;
 	private JPanel panelSelecPelis;
 	private JPanel panelCarrito;
 	private JPanel panelSelecFecha;
+	private JLabel lblPrecioNum;
+	private JLabel lblPrecioTotalCarrito;
 	DefaultTableModel model = new DefaultTableModel();
 	private JTextField txtNombre = null;
 	private JTextField txtApellido = null;
@@ -76,6 +75,7 @@ public class VentanaPrincipalIbai {
 	private JLabel lblTitulo;
 	private JLabel lblPeliculaSelec;
 	private int codCineBuscado = 0;
+	private JTextField textFieldCantidad;
 
 	public static void main(String[] args) {
 
@@ -153,9 +153,21 @@ public class VentanaPrincipalIbai {
 		lblFotoPelicula.setBounds(191, 80, 165, 180);
 		panelSelecFecha.add(lblFotoPelicula);
 
-		JButton btnAceptarFecha = new JButton("ACEPTAR");
-		btnAceptarFecha.setBounds(233, 407, 89, 23);
-		panelSelecFecha.add(btnAceptarFecha);
+		JButton btnAceptarPelicula = new JButton("ACEPTAR");
+		btnAceptarPelicula.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				panelSelecFecha.setVisible(false);
+				panelSelecCines.setVisible(true);
+
+				añadirCarrito();
+
+				textFieldCantidad.setText("");
+				lblPeliculaSelec.setText("");
+			}
+		});
+		btnAceptarPelicula.setBounds(233, 407, 89, 23);
+		panelSelecFecha.add(btnAceptarPelicula);
 
 		JButton btnAtrasFechas = new JButton("ATRAS");
 		btnAtrasFechas.addActionListener(new ActionListener() {
@@ -169,11 +181,26 @@ public class VentanaPrincipalIbai {
 		});
 		btnAtrasFechas.setBounds(10, 11, 77, 23);
 		panelSelecFecha.add(btnAtrasFechas);
-		
-		JLabel lblPrecio = new JLabel("Precio: 10€");
+
+		JLabel lblPrecio = new JLabel("Precio:");
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPrecio.setBounds(112, 366, 83, 14);
+		lblPrecio.setBounds(56, 366, 83, 14);
 		panelSelecFecha.add(lblPrecio);
+
+		JLabel lblCantidad = new JLabel("Cantidad:");
+		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCantidad.setBounds(327, 366, 61, 14);
+		panelSelecFecha.add(lblCantidad);
+
+		textFieldCantidad = new JTextField();
+		textFieldCantidad.setBounds(396, 364, 104, 20);
+		panelSelecFecha.add(textFieldCantidad);
+		textFieldCantidad.setColumns(10);
+
+		lblPrecioNum = new JLabel("10");
+		lblPrecioNum.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPrecioNum.setBounds(101, 366, 83, 14);
+		panelSelecFecha.add(lblPrecioNum);
 
 		panelCarrito = new JPanel();
 		panelCarrito.setBounds(0, 0, 564, 441);
@@ -204,6 +231,11 @@ public class VentanaPrincipalIbai {
 		listCarrito = new JList<String>();
 		listCarrito.setBounds(68, 96, 426, 275);
 		panelCarrito.add(listCarrito);
+
+		lblPrecioTotalCarrito = new JLabel("");
+		lblPrecioTotalCarrito.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPrecioTotalCarrito.setBounds(10, 407, 148, 23);
+		panelCarrito.add(lblPrecioTotalCarrito);
 
 		PanelLogin = new JPanel();
 		PanelLogin.setBounds(0, 0, 564, 441);
@@ -593,14 +625,30 @@ public class VentanaPrincipalIbai {
 
 	private void añadirCarrito() {
 
-		DefaultListModel<String> modeloCarrito = new DefaultListModel<String>();
-		String peliculaSeleccionada = listPeliculas.getSelectedValue();
-		peliculasCarrito.add(peliculaSeleccionada);
+		String entrada = null;
+		DefaultListModel<String> modeloCarrito = new DefaultListModel<>();
+		int precioEntrada = Integer.parseInt(lblPrecioNum.getText());
+		int cantidadEntrada = Integer.parseInt(textFieldCantidad.getText());
+		String peliculaSeleccionada = lblPeliculaSelec.getText();
+		String fechaSeleccionada = comboBoxFecha.getSelectedItem().toString();
+		String horaSeleccionada = comboBoxHora.getSelectedItem().toString();
 
-		for (int i = 0; i < peliculasCarrito.size(); i++) {
-			modeloCarrito.add(i, peliculasCarrito.get(i));
+		int precioTotal = precioEntrada * cantidadEntrada;
+		lblPrecioTotalCarrito.setText("Precio Total:" + precioTotal);
+
+		entrada = peliculaSeleccionada + ", " + fechaSeleccionada + ", " + horaSeleccionada;
+
+		System.out.print(entrada);
+
+		for (int i = 0; i < cantidadEntrada; i++) {
+			peliculasCarrito.add(entrada);
+		}
+
+		for (String pelicula : peliculasCarrito) {
+			modeloCarrito.addElement(pelicula);
 		}
 		listCarrito.setModel(modeloCarrito);
+
 	}
 
 	private void fechasPeliculas() {
