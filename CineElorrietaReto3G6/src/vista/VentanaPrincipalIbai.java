@@ -30,6 +30,7 @@ import gestores.GestorCines;
 import gestores.GestorClientes;
 import gestores.GestorPeliculas;
 import gestores.GestorProyecciones;
+import gestores.GestorRecibos;
 import pojos.Cine;
 import pojos.Cliente;
 import pojos.Pelicula;
@@ -60,6 +61,7 @@ public class VentanaPrincipalIbai {
 	private JPanel panelSelecFecha;
 	private JLabel lblPrecioNum;
 	private JLabel lblPrecioTotalCarrito;
+	private String mensaje;
 	DefaultTableModel model = new DefaultTableModel();
 	private JTextField txtNombre = null;
 	private JTextField txtApellido = null;
@@ -725,9 +727,15 @@ public class VentanaPrincipalIbai {
 
 		int longitud = peliculasCarrito.size();
 
-		if (longitud == 1) {
+		if (longitud == 0) {
 
-			comprar();
+			JOptionPane.showMessageDialog(null, "ERROR, Noo has seleccionado ninguna pelicula");
+
+		} else if (longitud == 1) {
+
+			mensaje = "BUENAS, SU COMPRAR COMPRA CON SE A QUEDADO EN: " + precioTotal + ". ¿DESEAS IMPRIMIR UN RECIBO?";
+
+			comprar(precioTotal);
 
 		} else if (longitud == 2) {
 
@@ -736,7 +744,10 @@ public class VentanaPrincipalIbai {
 
 			precioTotal = precioTotal - cantidadDescuento;
 
-			comprarDescuento(precioTotal);
+			mensaje = "BUENAS, SE HA APLICADO UN DESCUENTO DEL 20% SU COMPRAR COMPRA CON SE A QUEDADO EN: "
+					+ precioTotal + ". ¿DESEAS IMPRIMIR UN RECIBO?";
+
+			comprar(precioTotal);
 
 		} else {
 
@@ -745,17 +756,28 @@ public class VentanaPrincipalIbai {
 
 			precioTotal = precioTotal - cantidadDescuento;
 
-			comprarDescuento(precioTotal);
+			mensaje = "BUENAS, SE HA APLICADO UN DESCUENTO DEL 30% SU COMPRAR COMPRA CON SE A QUEDADO EN: "
+					+ precioTotal + ". ¿DESEAS IMPRIMIR UN RECIBO?";
+
+			comprar(precioTotal);
 
 		}
 
 	}
 
-	private void comprarDescuento(double precioTotal) {
+	private void comprar(double precioTotal) {
+
+		int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
+
+		if (opcion == JOptionPane.YES_OPTION) {
+			GestorRecibos gestorRecibos = new GestorRecibos();
+			String recibo = null;
+			gestorRecibos.imprimirRecibo(recibo);
+			JOptionPane.showMessageDialog(null, "RECIBO IMPRESO");
+		} else {
+			JOptionPane.showMessageDialog(null, "RECIBO NO IMPRESO");
+		}
 
 	}
 
-	private void comprar() {
-
-	}
 }
