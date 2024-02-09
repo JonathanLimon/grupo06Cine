@@ -767,11 +767,20 @@ public class VentanaPrincipalIbai {
 
 	private void comprar(double precioTotal) {
 
+		String clienteBuscado = null;
 		int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
+
+		String DNI = txtUserPass.getText();
+
+		ArrayList<Cliente> clientes = gestorCliente.obtenerClienteDNI(DNI);
+
+		for (Cliente cliente : clientes) {
+			clienteBuscado = cliente.getNombre() + ", " + cliente.getApellido();
+		}
 
 		if (opcion == JOptionPane.YES_OPTION) {
 			GestorRecibos gestorRecibos = new GestorRecibos();
-			String recibo = null;
+			String recibo = clienteBuscado + ", " + DNI + ", " + precioTotal;
 			gestorRecibos.imprimirRecibo(recibo);
 			JOptionPane.showMessageDialog(null, "RECIBO IMPRESO");
 		} else {
