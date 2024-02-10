@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import DBUtils.DBUtils;
-import pojos.Cine;
 import pojos.Cliente;
 
 public class GestorClientes {
@@ -35,9 +34,7 @@ public class GestorClientes {
 			statement.executeUpdate(sql);
 
 		} catch (SQLException sqle) {
-			JOptionPane.showMessageDialog(null, "ERROR, Vuelve a intentar");
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR, Vuelve a intentar");
 		} finally {
 			try {
 				if (statement != null)
@@ -87,10 +84,8 @@ public class GestorClientes {
 			}
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ERROR SQL: Vuelve a intentar");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ERROR: Vuelve a intentar");
 		} finally {
 			try {
 				if (resultSet != null)

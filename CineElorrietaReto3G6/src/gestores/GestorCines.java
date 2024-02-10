@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import DBUtils.DBUtils;
 import pojos.Cine;
 
@@ -46,10 +44,8 @@ public class GestorCines {
 			}
 		} catch (SQLException sqle) {
 			sqle.printStackTrace(); // Muestra información detallada de la excepción
-			JOptionPane.showMessageDialog(null, "ERROR SQL: Vuelve a intentar");
 		} catch (Exception e) {
 			e.printStackTrace(); // Muestra información detallada de la excepción
-			JOptionPane.showMessageDialog(null, "ERROR: Vuelve a intentar");
 		} finally {
 			try {
 				if (resultSet != null)
@@ -97,9 +93,7 @@ public class GestorCines {
 
 			}
 		} catch (SQLException sqle) {
-			System.out.println("Error con la BBDD - " + sqle.getMessage());
 		} catch (Exception e) {
-			System.out.println("Error generico - " + e.getMessage());
 		} finally {
 
 			try {

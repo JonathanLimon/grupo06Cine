@@ -5,13 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import DBUtils.DBUtils;
-import pojos.Cine;
 import pojos.Pelicula;
 
 public class GestorPeliculas {
@@ -47,10 +43,8 @@ public class GestorPeliculas {
 			}
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ERROR SQL: Vuelve a intentar");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ERROR: Vuelve a intentar");
 		} finally {
 			try {
 				if (resultSet != null)

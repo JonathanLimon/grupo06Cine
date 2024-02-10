@@ -31,9 +31,7 @@ public class GestorEntradas {
 			statement.executeUpdate(sql);
 
 		} catch (SQLException sqle) {
-			JOptionPane.showMessageDialog(null, "ERROR, Vuelve a intentar");
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR, Vuelve a intentar");
 		} finally {
 			try {
 				if (statement != null)

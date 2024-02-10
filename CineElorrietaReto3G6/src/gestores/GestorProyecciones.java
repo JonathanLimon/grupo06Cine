@@ -9,10 +9,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import DBUtils.DBUtils;
-import pojos.Pelicula;
 import pojos.Proyeccion;
 
 public class GestorProyecciones {
@@ -48,10 +45,8 @@ public class GestorProyecciones {
 			}
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ERROR SQL: Vuelve a intentar");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ERROR: Vuelve a intentar");
 		} finally {
 			try {
 				if (resultSet != null)
@@ -108,10 +103,8 @@ public class GestorProyecciones {
 			}
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ERROR SQL: Vuelve a intentar");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ERROR: Vuelve a intentar");
 		} finally {
 			try {
 				if (resultSet != null)
