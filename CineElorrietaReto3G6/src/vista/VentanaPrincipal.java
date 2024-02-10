@@ -31,12 +31,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import gestores.GestorCines;
 import gestores.GestorClientes;
 import gestores.GestorPeliculas;
 import gestores.GestorProyecciones;
-import gestores.GestorRecibos;
 import gestores.GestorSalas;
 import pojos.Cine;
 import pojos.Cliente;
@@ -795,7 +793,6 @@ public class VentanaPrincipal {
 			comprar(precioTotal);
 
 		}
-
 	}
 
 	private void comprar(double precioTotal) throws IOException {
@@ -812,7 +809,6 @@ public class VentanaPrincipal {
 		}
 
 		if (opcion == JOptionPane.YES_OPTION) {
-			GestorRecibos gestorRecibos = new GestorRecibos();
 			String recibo = clienteBuscado + ", " + DNI + ", " + precioTotal;
 			imprimirRecibo(recibo);
 			JOptionPane.showMessageDialog(null, "RECIBO IMPRESO");
