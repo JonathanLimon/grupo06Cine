@@ -3,16 +3,21 @@ package vista;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -31,6 +36,7 @@ import gestores.GestorClientes;
 import gestores.GestorPeliculas;
 import gestores.GestorProyecciones;
 import gestores.GestorRecibos;
+import gestores.GestorSalas;
 import pojos.Cine;
 import pojos.Cliente;
 import pojos.Pelicula;
@@ -62,7 +68,6 @@ public class VentanaPrincipal {
 	private JLabel lblPrecioNum;
 	private JLabel lblPrecioTotalCarrito;
 	private String mensaje;
-	DefaultTableModel model = new DefaultTableModel();
 	private JTextField txtNombre = null;
 	private JTextField txtApellido = null;
 	private JTextField txtDni = null;
@@ -79,8 +84,11 @@ public class VentanaPrincipal {
 	public String nombreCine = null;
 	private JLabel lblTitulo;
 	private JLabel lblPeliculaSelec;
-	private int codCineBuscado = 0;
 	private JTextField textFieldCantidad;
+	private JLabel lblSalaSelec;
+	private int codCineBuscado;
+	private String fechaBuscada = null;
+	private JLabel lblFotoPelicula;
 
 	public static void main(String[] args) {
 
@@ -116,6 +124,113 @@ public class VentanaPrincipal {
 		panelSelecPelis.setLayout(null);
 		panelSelecPelis.setBounds(0, 0, 564, 441);
 		panelSelecPelis.setVisible(false);
+
+		panelSelecFecha = new JPanel();
+		panelSelecFecha.setBounds(0, 0, 564, 441);
+		frame.getContentPane().add(panelSelecFecha);
+		panelSelecFecha.setLayout(null);
+		panelSelecFecha.setVisible(false);
+
+		lblTitulo = new JLabel("Pelicula:");
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTitulo.setBounds(191, 38, 61, 19);
+		panelSelecFecha.add(lblTitulo);
+
+		comboBoxHora = new JComboBox<String>();
+		comboBoxHora.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				seleccionSala();
+			}
+		});
+		comboBoxHora.setBounds(327, 309, 173, 22);
+		panelSelecFecha.add(comboBoxHora);
+
+		lblPeliculaSelec = new JLabel("");
+		lblPeliculaSelec.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPeliculaSelec.setBounds(251, 27, 234, 42);
+		panelSelecFecha.add(lblPeliculaSelec);
+
+		JLabel lblFechas = new JLabel("DIAS:");
+		lblFechas.setBounds(133, 284, 31, 14);
+		panelSelecFecha.add(lblFechas);
+
+		comboBoxFecha = new JComboBox<String>();
+		comboBoxFecha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				seleccionarHora();
+			}
+		});
+		comboBoxFecha.setBounds(56, 309, 173, 22);
+		panelSelecFecha.add(comboBoxFecha);
+
+		JLabel lblHora = new JLabel("HORAS:");
+		lblHora.setBounds(396, 284, 46, 14);
+		panelSelecFecha.add(lblHora);
+
+		lblFotoPelicula = new JLabel("");
+		lblFotoPelicula.setBounds(191, 80, 165, 180);
+		panelSelecFecha.add(lblFotoPelicula);
+
+		JButton btnAceptarPelicula = new JButton("ACEPTAR");
+		btnAceptarPelicula.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				panelSelecFecha.setVisible(false);
+				panelSelecCines.setVisible(true);
+
+				añadirCarrito();
+
+				textFieldCantidad.setText("");
+				lblPeliculaSelec.setText("");
+			}
+		});
+		btnAceptarPelicula.setBounds(233, 407, 89, 23);
+		panelSelecFecha.add(btnAceptarPelicula);
+
+		JButton btnAtrasFechas = new JButton("ATRAS");
+		btnAtrasFechas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				panelSelecFecha.setVisible(false);
+				panelSelecPelis.setVisible(true);
+
+				lblTitulo.setText("");
+				lblSalaSelec.setText("");
+				comboBoxHora.removeAllItems();
+			}
+		});
+		btnAtrasFechas.setBounds(10, 11, 77, 23);
+		panelSelecFecha.add(btnAtrasFechas);
+
+		JLabel lblPrecio = new JLabel("Precio:");
+		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPrecio.setBounds(56, 366, 83, 14);
+		panelSelecFecha.add(lblPrecio);
+
+		JLabel lblCantidad = new JLabel("Cantidad:");
+		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCantidad.setBounds(327, 366, 61, 14);
+		panelSelecFecha.add(lblCantidad);
+
+		textFieldCantidad = new JTextField();
+		textFieldCantidad.setBounds(396, 364, 104, 20);
+		panelSelecFecha.add(textFieldCantidad);
+		textFieldCantidad.setColumns(10);
+
+		lblPrecioNum = new JLabel("10");
+		lblPrecioNum.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPrecioNum.setBounds(101, 366, 83, 14);
+		panelSelecFecha.add(lblPrecioNum);
+
+		JLabel lblSala = new JLabel("Sala:");
+		lblSala.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblSala.setBounds(133, 366, 46, 14);
+		panelSelecFecha.add(lblSala);
+
+		lblSalaSelec = new JLabel("");
+		lblSalaSelec.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblSalaSelec.setBounds(171, 366, 46, 14);
+		panelSelecFecha.add(lblSalaSelec);
 
 		panelCarrito = new JPanel();
 		panelCarrito.setBounds(0, 0, 564, 441);
@@ -160,96 +275,6 @@ public class VentanaPrincipal {
 		lblPrecioTotalCarrito.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblPrecioTotalCarrito.setBounds(276, 407, 148, 23);
 		panelCarrito.add(lblPrecioTotalCarrito);
-
-		panelSelecFecha = new JPanel();
-		panelSelecFecha.setBounds(0, 0, 564, 441);
-		frame.getContentPane().add(panelSelecFecha);
-		panelSelecFecha.setLayout(null);
-		panelSelecFecha.setVisible(false);
-
-		lblTitulo = new JLabel("Pelicula:");
-		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblTitulo.setBounds(191, 38, 61, 19);
-		panelSelecFecha.add(lblTitulo);
-
-		comboBoxHora = new JComboBox<String>();
-		comboBoxHora.setBounds(327, 309, 173, 22);
-		panelSelecFecha.add(comboBoxHora);
-
-		lblPeliculaSelec = new JLabel("");
-		lblPeliculaSelec.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPeliculaSelec.setBounds(251, 27, 234, 42);
-		panelSelecFecha.add(lblPeliculaSelec);
-
-		JLabel lblFechas = new JLabel("DIAS:");
-		lblFechas.setBounds(133, 284, 31, 14);
-		panelSelecFecha.add(lblFechas);
-
-		comboBoxFecha = new JComboBox<String>();
-		comboBoxFecha.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				seleccionarHora();
-			}
-		});
-		comboBoxFecha.setBounds(56, 309, 173, 22);
-		panelSelecFecha.add(comboBoxFecha);
-
-		JLabel lblHora = new JLabel("HORAS:");
-		lblHora.setBounds(396, 284, 46, 14);
-		panelSelecFecha.add(lblHora);
-
-		JLabel lblFotoPelicula = new JLabel("");
-		lblFotoPelicula.setBounds(191, 80, 165, 180);
-		panelSelecFecha.add(lblFotoPelicula);
-
-		JButton btnAceptarPelicula = new JButton("ACEPTAR");
-		btnAceptarPelicula.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				panelSelecFecha.setVisible(false);
-				panelSelecCines.setVisible(true);
-
-				añadirCarrito();
-
-				textFieldCantidad.setText("");
-				lblPeliculaSelec.setText("");
-			}
-		});
-		btnAceptarPelicula.setBounds(233, 407, 89, 23);
-		panelSelecFecha.add(btnAceptarPelicula);
-
-		JButton btnAtrasFechas = new JButton("ATRAS");
-		btnAtrasFechas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				panelSelecFecha.setVisible(false);
-				panelSelecPelis.setVisible(true);
-
-				lblTitulo.setText("");
-			}
-		});
-		btnAtrasFechas.setBounds(10, 11, 77, 23);
-		panelSelecFecha.add(btnAtrasFechas);
-
-		JLabel lblPrecio = new JLabel("Precio:");
-		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPrecio.setBounds(56, 366, 83, 14);
-		panelSelecFecha.add(lblPrecio);
-
-		JLabel lblCantidad = new JLabel("Cantidad:");
-		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCantidad.setBounds(327, 366, 61, 14);
-		panelSelecFecha.add(lblCantidad);
-
-		textFieldCantidad = new JTextField();
-		textFieldCantidad.setBounds(396, 364, 104, 20);
-		panelSelecFecha.add(textFieldCantidad);
-		textFieldCantidad.setColumns(10);
-
-		lblPrecioNum = new JLabel("10");
-		lblPrecioNum.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPrecioNum.setBounds(101, 366, 83, 14);
-		panelSelecFecha.add(lblPrecioNum);
 
 		PanelLogin = new JPanel();
 		PanelLogin.setBounds(0, 0, 564, 441);
@@ -409,7 +434,10 @@ public class VentanaPrincipal {
 				panelSelecPelis.setVisible(false);
 				panelSelecFecha.setVisible(true);
 
+				lblSalaSelec.setText("");
+
 				fechasPeliculas();
+				cambiarImagen();
 			}
 		});
 		btnPelicula.setBounds(240, 407, 89, 23);
@@ -701,12 +729,12 @@ public class VentanaPrincipal {
 
 	private void seleccionarHora() {
 
-		String fechaElegida = comboBoxFecha.getSelectedItem().toString();
+		fechaBuscada = comboBoxFecha.getSelectedItem().toString();
 
 		String tituloPelicula = lblPeliculaSelec.getText();
 
 		ArrayList<Proyeccion> horas = gestorProyecciones.obtenerHoraPeliculaCineFecha(codCineBuscado, tituloPelicula,
-				fechaElegida);
+				fechaBuscada);
 
 		DefaultComboBoxModel<String> modeloHora = new DefaultComboBoxModel<String>();
 
@@ -789,4 +817,85 @@ public class VentanaPrincipal {
 
 	}
 
+	private void seleccionSala() {
+
+		String tituloBuscado = lblPeliculaSelec.getText();
+		GestorSalas gestorSala = new GestorSalas();
+		int codigoSala = gestorSala.obtenerCodSala(codCineBuscado, tituloBuscado, fechaBuscada);
+
+		lblSalaSelec.setText("" + codigoSala);
+
+	}
+
+	private void cambiarImagen() {
+
+		String rutaFoto = null;
+		String tituloBuscado = listPeliculas.getSelectedValue();
+
+		if (tituloBuscado.equals("Black Panther")) {
+			rutaFoto = "lib/Fotos/blackpanther.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Los Vengadores: Endgame")) {
+			rutaFoto = "lib/Fotos/endgame.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Lady Bird")) {
+			rutaFoto = "lib/Fotos/ladybird.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Misión Imposible 6")) {
+			rutaFoto = "lib/Fotos/misionimposible.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Metropolis")) {
+			rutaFoto = "lib/Fotos/metropolis.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("La novia de Frankenstein")) {
+			rutaFoto = "lib/Fotos/lanovia.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Hijos de los hombres")) {
+			rutaFoto = "lib/Fotos/hijos.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Looper")) {
+			rutaFoto = "lib/Fotos/looper.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Fuerza mayor ")) {
+			rutaFoto = "lib/Fotos/fuerzamayor.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Mortadelo y Filemón contra Jimmy el Cachondo")) {
+			rutaFoto = "lib/Fotos/mortadelo.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("El cuarto pasajero")) {
+			rutaFoto = "lib/Fotos/cuarto.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("Dos buenos tipos")) {
+			rutaFoto = "lib/Fotos/dosbuenos.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("La Monja")) {
+			rutaFoto = "lib/Fotos/monja.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("It 2")) {
+			rutaFoto = "lib/Fotos/it2.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("La matanza de Texas")) {
+			rutaFoto = "lib/Fotos/matanza.jpg";
+			mostrarImagen(rutaFoto);
+		} else if (tituloBuscado.equals("El resplandor")) {
+			rutaFoto = "lib/Fotos/resplandor.jpg";
+			mostrarImagen(rutaFoto);
+		}
+	}
+
+	private void mostrarImagen(String rutaFoto) {
+		try {
+			BufferedImage imagenOriginal = ImageIO.read(new File(rutaFoto));
+
+			int nuevoAncho = 165;
+			int nuevoAlto = 180;
+			Image imagenRedimensionada = imagenOriginal.getScaledInstance(nuevoAncho, nuevoAlto, Image.SCALE_SMOOTH);
+
+			ImageIcon icono = new ImageIcon(imagenRedimensionada);
+
+			lblFotoPelicula.setIcon(icono);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

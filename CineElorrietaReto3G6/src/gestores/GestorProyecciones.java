@@ -71,12 +71,12 @@ public class GestorProyecciones {
 	}
 
 	public ArrayList<Proyeccion> obtenerHoraPeliculaCineFecha(int codCineBuscado, String tituloPelicula,
-			String fechaElegida) {
+			String fechaBuscada) {
 		ArrayList<Proyeccion> ret = null;
 
 		String sql = "SELECT DISTINCT Proyeccion.Horario FROM Cine JOIN Sala ON Cine.Codigo = Sala.CodigoCine JOIN Proyeccion ON Sala.Codigo = Proyeccion.CodigoSala JOIN Pelicula ON Proyeccion.CodigoPelicula = Pelicula.Codigo WHERE Cine.Codigo = '"
 				+ codCineBuscado + "'and Pelicula.titulo = '" + tituloPelicula + "' and Proyeccion.Fecha = '"
-				+ fechaElegida + "'";
+				+ fechaBuscada + "'";
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
