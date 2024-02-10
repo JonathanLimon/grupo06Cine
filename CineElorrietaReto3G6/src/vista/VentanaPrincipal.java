@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -241,7 +242,11 @@ public class VentanaPrincipal {
 		JButton btnPagarCarrito = new JButton("Pagar");
 		btnPagarCarrito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pagarCarrito();
+				try {
+					pagarCarrito();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnPagarCarrito.setBounds(465, 11, 89, 23);
@@ -745,7 +750,7 @@ public class VentanaPrincipal {
 		comboBoxHora.setModel(modeloHora);
 	}
 
-	private void pagarCarrito() {
+	private void pagarCarrito() throws IOException {
 
 		double precioTotal = Double.parseDouble(lblPrecioTotalCarrito.getText());
 
@@ -793,7 +798,7 @@ public class VentanaPrincipal {
 
 	}
 
-	private void comprar(double precioTotal) {
+	private void comprar(double precioTotal) throws IOException {
 
 		String clienteBuscado = null;
 		int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
@@ -809,7 +814,7 @@ public class VentanaPrincipal {
 		if (opcion == JOptionPane.YES_OPTION) {
 			GestorRecibos gestorRecibos = new GestorRecibos();
 			String recibo = clienteBuscado + ", " + DNI + ", " + precioTotal;
-			gestorRecibos.imprimirRecibo(recibo);
+			imprimirRecibo(recibo);
 			JOptionPane.showMessageDialog(null, "RECIBO IMPRESO");
 		} else {
 			JOptionPane.showMessageDialog(null, "RECIBO NO IMPRESO");
@@ -894,6 +899,16 @@ public class VentanaPrincipal {
 			ImageIcon icono = new ImageIcon(imagenRedimensionada);
 
 			lblFotoPelicula.setIcon(icono);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void imprimirRecibo(String recibo) {
+		try {
+			FileWriter escritor = new FileWriter("C:\\Users\\Ibai\\Desktop\\recibo.txt");
+			escritor.write(recibo);
+			escritor.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
