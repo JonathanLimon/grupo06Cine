@@ -242,6 +242,10 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					pagarCarrito();
+					
+					panelCarrito.setVisible(false);
+					PanelLogin.setVisible(true);
+					
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
