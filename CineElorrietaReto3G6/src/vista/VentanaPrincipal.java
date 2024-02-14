@@ -242,10 +242,10 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					pagarCarrito();
-					
+
 					panelCarrito.setVisible(false);
 					PanelLogin.setVisible(true);
-					
+
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -906,7 +906,7 @@ public class VentanaPrincipal {
 
 	public void imprimirRecibo(String recibo) {
 		try {
-			FileWriter escritor = new FileWriter("C:\\Users\\Ibai\\Desktop\\recibo.txt");
+			FileWriter escritor = new FileWriter("C:\\Users\\in1dw3\\Desktop\\recibo.txt");
 			escritor.write(recibo);
 			escritor.close();
 		} catch (IOException e) {
