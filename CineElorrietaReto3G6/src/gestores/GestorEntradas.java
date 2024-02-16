@@ -25,8 +25,7 @@ public class GestorEntradas {
 
 			statement = connection.createStatement();
 
-			String sql = "insert into entrada (codProyeccion, codCliente, FechaCompra) VALUES ('" + entrada.get
-					+ "','" + cliente.getNombre() + "','" + cliente.getApellido() + "')";
+			String sql = "insert into entrada (codProyeccion, codCliente, FechaCompra) VALUES ()";
 
 			statement.executeUpdate(sql);
 
