@@ -15,6 +15,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -33,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import gestores.GestorCines;
 import gestores.GestorClientes;
+import gestores.GestorEntradas;
 import gestores.GestorPeliculas;
 import gestores.GestorProyecciones;
 import gestores.GestorSalas;
@@ -64,6 +67,7 @@ public class VentanaPrincipal {
 	private JPanel panelSelecPelis;
 	private JPanel panelCarrito;
 	private JPanel panelSelecFecha;
+	private JPanel PanelBienvenida;
 	private JLabel lblPrecioNum;
 	private JLabel lblPrecioTotalCarrito;
 	private String mensaje;
@@ -86,6 +90,7 @@ public class VentanaPrincipal {
 	private JTextField textFieldCantidad;
 	private JLabel lblSalaSelec;
 	private int codCineBuscado;
+	private int codProyeccion = 0;
 	private String fechaBuscada = null;
 	private JLabel lblFotoPelicula;
 
@@ -177,6 +182,17 @@ public class VentanaPrincipal {
 				panelSelecFecha.setVisible(false);
 				panelSelecCines.setVisible(true);
 
+				String horaBuscada = comboBoxHora.getSelectedItem().toString();
+				String fechaBuscadaProyeccion = comboBoxFecha.getSelectedItem().toString();
+				String tituloPelicula = lblPeliculaSelec.getText();
+
+				ArrayList<Proyeccion> proyecciones = gestorProyecciones.obtenerCodProyeccion(codCineBuscado,
+						tituloPelicula, fechaBuscadaProyeccion, horaBuscada);
+
+				for (Proyeccion proyeccion : proyecciones) {
+					codProyeccion = proyeccion.getCodProyeccion();
+				}
+
 				añadirCarrito();
 
 				textFieldCantidad.setText("");
@@ -244,7 +260,7 @@ public class VentanaPrincipal {
 					pagarCarrito();
 
 					panelCarrito.setVisible(false);
-					PanelLogin.setVisible(true);
+					PanelBienvenida.setVisible(true);
 
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -310,7 +326,7 @@ public class VentanaPrincipal {
 		btnRegistrarse.setBounds(10, 11, 117, 23);
 		PanelLogin.add(btnRegistrarse);
 
-		JPanel PanelBienvenida = new JPanel();
+		PanelBienvenida = new JPanel();
 		PanelBienvenida.setLayout(null);
 		PanelBienvenida.setBounds(0, 0, 564, 441);
 		frame.getContentPane().add(PanelBienvenida);
@@ -754,6 +770,22 @@ public class VentanaPrincipal {
 
 	private void pagarCarrito() throws IOException {
 
+		int codCliente = 0;
+		String DNI = txtUserPass.getText();
+
+		GestorEntradas gestorEntrada = new GestorEntradas();
+		LocalDate fechaCompra = LocalDate.now();
+
+		ArrayList<Cliente> clientes = gestorCliente.obtenerClienteDNI(DNI);
+
+		for (Cliente cliente : clientes) {
+			codCliente = cliente.getCodCliente();
+		}
+
+		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		String fechaFormateada = fechaCompra.format(formatoFecha);
+
+//		gestorEntrada.insertEntrada(codProyeccion, codCliente, fechaFormateada);
 		double precioTotal = Double.parseDouble(lblPrecioTotalCarrito.getText());
 
 		HashSet<String> listaCarrito = new HashSet<>(peliculasCarrito);
@@ -813,7 +845,7 @@ public class VentanaPrincipal {
 		}
 
 		if (opcion == JOptionPane.YES_OPTION) {
-			String recibo = clienteBuscado + ", " + DNI + ", " + precioTotal;
+			String recibo = peliculasCarrito.toString();
 			imprimirRecibo(recibo);
 			JOptionPane.showMessageDialog(null, "RECIBO IMPRESO");
 		} else {

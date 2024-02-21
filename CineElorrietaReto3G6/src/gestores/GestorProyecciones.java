@@ -128,4 +128,62 @@ public class GestorProyecciones {
 		return ret;
 	}
 
+	public ArrayList<Proyeccion> obtenerCodProyeccion(int codCineBuscado, String tituloPelicula,
+			String fechaBuscadaProyeccion, String horaBuscada) {
+		ArrayList<Proyeccion> ret = null;
+
+		String sql = "SELECT DISTINCT Proyeccion.Codigo FROM Cine JOIN Sala ON Cine.Codigo = Sala.CodigoCine JOIN Proyeccion ON Sala.Codigo = Proyeccion.CodigoSala JOIN Pelicula ON Proyeccion.CodigoPelicula = Pelicula.Codigo WHERE Cine.Codigo = '"
+				+ codCineBuscado + "'and Pelicula.titulo = '" + tituloPelicula + "' and Proyeccion.Fecha = '"
+				+ fechaBuscadaProyeccion + "' and Proyeccion.Horario = '" + horaBuscada + "'";
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			Class.forName(DBUtils.DRIVER);
+
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				if (ret == null)
+					ret = new ArrayList<Proyeccion>();
+
+				Proyeccion proyeccion = new Proyeccion();
+
+				int codigo = resultSet.getInt("Codigo");
+
+				proyeccion.setCodProyeccion(codigo);
+
+				ret.add(proyeccion);
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (statement != null)
+					statement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
 }

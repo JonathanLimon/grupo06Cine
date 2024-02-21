@@ -55,7 +55,7 @@ public class GestorClientes {
 	public ArrayList<Cliente> obtenerClienteDNI(String DNI) {
 		ArrayList<Cliente> ret = null;
 
-		String sql = "select Nombre, Apellido from Cliente where DNI = '" + DNI + "'";
+		String sql = "select Cliente.Codigo, Nombre, Apellido from Cliente where DNI = '" + DNI + "'";
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
@@ -74,9 +74,11 @@ public class GestorClientes {
 
 				Cliente cliente = new Cliente();
 
+				int codigo = resultSet.getInt("Codigo");
 				String nombre = resultSet.getString("Nombre");
 				String apellido = resultSet.getString("Apellido");
 
+				cliente.setCodCliente(codigo);
 				cliente.setNombre(nombre);
 				cliente.setApellido(apellido);
 
