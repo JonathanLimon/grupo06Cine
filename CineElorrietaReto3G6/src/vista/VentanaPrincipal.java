@@ -785,7 +785,7 @@ public class VentanaPrincipal {
 		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		String fechaFormateada = fechaCompra.format(formatoFecha);
 
-//		gestorEntrada.insertEntrada(codProyeccion, codCliente, fechaFormateada);
+		gestorEntrada.insertEntrada(codProyeccion, codCliente, fechaFormateada);
 		double precioTotal = Double.parseDouble(lblPrecioTotalCarrito.getText());
 
 		HashSet<String> listaCarrito = new HashSet<>(peliculasCarrito);
