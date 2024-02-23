@@ -49,8 +49,8 @@ import javax.swing.JOptionPane;
 
 public class VentanaPrincipal {
 
+	//Variables
 	private JFrame frame;
-
 	private GestorClientes gestorCliente = new GestorClientes();
 	private GestorPeliculas gestorPelicula = new GestorPeliculas();
 	private GestorProyecciones gestorProyecciones = new GestorProyecciones();
