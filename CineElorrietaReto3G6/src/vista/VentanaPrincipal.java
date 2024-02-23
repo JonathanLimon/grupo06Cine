@@ -124,6 +124,7 @@ public class VentanaPrincipal {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
+		//PANELES
 		panelSelecPelis = new JPanel();
 		panelSelecPelis.setLayout(null);
 		panelSelecPelis.setBounds(0, 0, 564, 441);
